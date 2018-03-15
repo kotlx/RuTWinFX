@@ -27,17 +27,16 @@ public class CleanFXwin {
 	private static double windowY = 0;
 
 	private static AnchorPane backgroundPane;
-	private Pane borderPaneS;
-	private Pane borderPaneW;
-	private Pane borderPaneN;
-	private Pane borderPaneE;
-	private Pane anglePaneSW;
-	private Pane anglePaneNW;
-	private Pane anglePaneNE;
-	private Pane anglePaneSE;
+	private static Pane borderPaneS;
+	private static Pane borderPaneW;
+	private static Pane borderPaneN;
+	private static Pane borderPaneE;
+	private static Pane anglePaneSW;
+	private static Pane anglePaneNW;
+	private static Pane anglePaneNE;
+	private static Pane anglePaneSE;
 
 	private CleanFXwin() {
-
 	}
 
 	public static Scene initResizable(Stage stg) {
@@ -47,12 +46,10 @@ public class CleanFXwin {
 		cw.bindingBehavior();
 
 		stage.initStyle(StageStyle.TRANSPARENT);
-		Scene scene = new Scene(backgroundPane, PREF_WIDTH, PREF_HEIGHT, new Color(0, 0, 0, 0));
+		Scene scene = new Scene(backgroundPane, PREF_WIDTH, PREF_HEIGHT, Color.TRANSPARENT);
 		scene.getStylesheets().add("/cleanWin/kotlx/ru/res/bgStyle.css");
 		return scene;
 	}
-
-
 
 	public static Scene initResizable(Stage stage, int prefWidth, int prefHeight) {
 		PREF_HEIGHT = prefHeight;
@@ -84,6 +81,7 @@ public class CleanFXwin {
 
 		borderPaneS = new Pane();
 		borderPaneS.setId("idBorderPaneS");
+		borderPaneS.getStyleClass().add("BorderPane");
 		borderPaneS.setPrefHeight(BORDER_WIDTH);
 		AnchorPane.setBottomAnchor(borderPaneS, 0.0);
 		AnchorPane.setLeftAnchor(borderPaneS, 0.0);
@@ -91,6 +89,7 @@ public class CleanFXwin {
 
 		borderPaneW = new Pane();
 		borderPaneW.setId("idBorderPaneW");
+		borderPaneW.getStyleClass().add("BorderPane");
 		borderPaneW.setPrefWidth(BORDER_WIDTH);
 		AnchorPane.setLeftAnchor(borderPaneW, 0.0);
 		AnchorPane.setBottomAnchor(borderPaneW, 0.0);
@@ -98,6 +97,7 @@ public class CleanFXwin {
 
 		borderPaneN = new Pane();
 		borderPaneN.setId("idBorderPaneN");
+		borderPaneN.getStyleClass().add("BorderPane");
 		borderPaneN.setPrefHeight(BORDER_WIDTH);
 		AnchorPane.setTopAnchor(borderPaneN, 0.0);
 		AnchorPane.setLeftAnchor(borderPaneN, 0.0);
@@ -105,6 +105,7 @@ public class CleanFXwin {
 
 		borderPaneE = new Pane();
 		borderPaneE.setId("idBorderPaneE");
+		borderPaneE.getStyleClass().add("BorderPane");
 		borderPaneE.setPrefWidth(BORDER_WIDTH);
 		AnchorPane.setRightAnchor(borderPaneE, 0.0);
 		AnchorPane.setTopAnchor(borderPaneE, 0.0);
@@ -112,6 +113,7 @@ public class CleanFXwin {
 
 		anglePaneSW = new Pane();
 		anglePaneSW.setId("idAnglePaneSW");
+		anglePaneSW.getStyleClass().add("BorderPane");
 		anglePaneSW.setPrefWidth(ANGLE_WIDTH);
 		anglePaneSW.setPrefHeight(ANGLE_WIDTH);
 		AnchorPane.setBottomAnchor(anglePaneSW, 0.0);
@@ -119,6 +121,7 @@ public class CleanFXwin {
 
 		anglePaneNW = new Pane();
 		anglePaneNW.setId("idAnglePaneNW");
+		anglePaneNW.getStyleClass().add("BorderPane");
 		anglePaneNW.setPrefWidth(ANGLE_WIDTH);
 		anglePaneNW.setPrefHeight(ANGLE_WIDTH);
 		AnchorPane.setTopAnchor(anglePaneNW, 0.0);
@@ -126,6 +129,7 @@ public class CleanFXwin {
 
 		anglePaneNE = new Pane();
 		anglePaneNE.setId("idAnglePaneNE");
+		anglePaneNE.getStyleClass().add("BorderPane");
 		anglePaneNE.setPrefWidth(ANGLE_WIDTH);
 		anglePaneNE.setPrefHeight(ANGLE_WIDTH);
 		AnchorPane.setTopAnchor(anglePaneNE, 0.0);
@@ -133,6 +137,7 @@ public class CleanFXwin {
 
 		anglePaneSE = new Pane();
 		anglePaneSE.setId("idAnglePaneSE");
+		anglePaneSE.getStyleClass().add("BorderPane");
 		anglePaneSE.setPrefWidth(ANGLE_WIDTH);
 		anglePaneSE.setPrefHeight(ANGLE_WIDTH);
 		AnchorPane.setBottomAnchor(anglePaneSE, 0.0);
@@ -140,7 +145,6 @@ public class CleanFXwin {
 
 		backgroundPane.getChildren().addAll(borderPaneS, borderPaneW, borderPaneN, borderPaneE,
 				anglePaneSW, anglePaneNW, anglePaneNE, anglePaneSE);
-//		return backgroundPane;
 	}
 
 	private double oldScreenX = 0D;

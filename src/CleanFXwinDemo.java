@@ -22,6 +22,8 @@ public class CleanFXwinDemo extends Application {
 			CleanFXwin.setRoot(root);
 		}
 
+		//TODO Созадать оформление окна
+
 		stage.setScene(scene);
 		stage.show();
 	}
