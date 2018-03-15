@@ -1,0 +1,43 @@
+#idBackgroundAnchorPane {
+	-fx-background-color: rgba(0, 0, 0, 0.9);
+}
+
+#idBorderPaneS {
+	-fx-background-color: rgba(240, 230, 0, 0.9);
+	-fx-cursor: s-resize;
+}
+
+#idBorderPaneW {
+	-fx-background-color: rgba(240, 230, 0, 0.9);
+	-fx-cursor: w-resize;
+}
+
+#idBorderPaneN {
+	-fx-background-color: rgba(240, 230, 0, 0.9);
+	-fx-cursor: n-resize;
+}
+
+#idBorderPaneE {
+	-fx-background-color: rgba(240, 230, 0, 0.9);
+	-fx-cursor: e-resize;
+}
+
+#idAnglePaneSW {
+	-fx-background-color: rgba(230, 240, 0, 0.9);
+	-fx-cursor: sw-resize;
+}
+
+#idAnglePaneNW {
+	-fx-background-color: rgba(230, 240, 0, 0.9);
+	-fx-cursor: nw-resize; 
+}
+
+#idAnglePaneNE {
+	-fx-background-color: rgba(230, 240, 0, 0.9);
+	-fx-cursor: ne-resize;
+}
+
+#idAnglePaneSE {
+	-fx-background-color: rgba(230, 240, 0, 0.9);
+	-fx-cursor: se-resize;
+} 
