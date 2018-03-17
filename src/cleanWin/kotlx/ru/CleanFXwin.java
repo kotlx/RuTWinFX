@@ -12,21 +12,24 @@ public class CleanFXwin {
 	private static Stage stage;
 	private static final CleanFXwin cw = new CleanFXwin();
 
+	private static boolean MODE = true;
+
 	private static int MIN_HEIGHT = 100;
+
 	private static int MIN_WIDTH = 100;
 	private static int PREF_HEIGHT = 400;
 	private static int PREF_WIDTH = 600;
 	private static final int BORDER_WIDTH = 8;
 	private static final int ANGLE_WIDTH = 15;
-
 	private static double initX = 0;
+
 	private static double initY = 0;
 	private static double windowWidth = 0;
 	private static double windowHeight = 0;
 	private static double windowX = 0;
 	private static double windowY = 0;
-
 	private static AnchorPane backgroundPane;
+
 	private static Pane borderPaneS;
 	private static Pane borderPaneW;
 	private static Pane borderPaneN;
@@ -51,6 +54,11 @@ public class CleanFXwin {
 		return scene;
 	}
 
+	public static Scene initResizable(Stage stg, boolean behaviorMode) {
+		MODE = behaviorMode;
+		return initResizable(stg);
+	}
+
 	public static Scene initResizable(Stage stage, int prefWidth, int prefHeight) {
 		PREF_HEIGHT = prefHeight;
 		PREF_WIDTH = prefWidth;
@@ -66,10 +74,10 @@ public class CleanFXwin {
 	}
 
 	public static <T extends Pane> void setRoot(T root) {
-		stage.setWidth(root.getPrefWidth() + BORDER_WIDTH *2);
-		stage.setHeight(root.getPrefHeight() + BORDER_WIDTH *2);
-		stage.heightProperty().addListener((observable, oldValue, newValue) -> root.setPrefHeight(newValue.doubleValue() - BORDER_WIDTH *2));
-		stage.widthProperty().addListener((observable, oldValue, newValue) -> root.setPrefWidth(newValue.doubleValue() - BORDER_WIDTH *2));
+		stage.setWidth(root.getPrefWidth() + BORDER_WIDTH * 2);
+		stage.setHeight(root.getPrefHeight() + BORDER_WIDTH * 2);
+		stage.heightProperty().addListener((observable, oldValue, newValue) -> root.setPrefHeight(newValue.doubleValue() - BORDER_WIDTH * 2));
+		stage.widthProperty().addListener((observable, oldValue, newValue) -> root.setPrefWidth(newValue.doubleValue() - BORDER_WIDTH * 2));
 		root.setLayoutX(BORDER_WIDTH);
 		root.setLayoutY(BORDER_WIDTH);
 
@@ -148,37 +156,68 @@ public class CleanFXwin {
 	}
 
 	private void bindingBehavior() {
-		borderPaneW.addEventFilter(MouseEvent.ANY, event -> {
-			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-				initX = event.getScreenX();
-				windowX = stage.getX();
-				windowWidth = windowX + stage.getWidth();
-			}
-
-			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaX = event.getScreenX() - initX;
-				if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
-					stage.setWidth(windowWidth - windowX - deltaX);
-					stage.setX(windowX + deltaX);
+		if (MODE) {
+			borderPaneW.addEventFilter(MouseEvent.ANY, event -> {
+				if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+					initX = event.getScreenX();
+					windowX = stage.getX();
+					windowWidth = windowX + stage.getWidth();
 				}
-			}
-		});
 
-		borderPaneN.addEventFilter(MouseEvent.ANY, event -> {
-			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-				initY = event.getScreenY();
-				windowY = stage.getY();
-				windowHeight = windowY + stage.getHeight();
-			}
-
-			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaY = event.getScreenY() - initY;
-				if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
-					stage.setY(windowY + deltaY);
-					stage.setHeight(windowHeight - windowY - deltaY);
+				if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+					double deltaX = event.getScreenX() - initX;
+					if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
+						stage.setWidth(windowWidth - windowX - deltaX);
+						stage.setX(windowX + deltaX);
+					}
 				}
-			}
-		});
+			});
+		} else {
+			borderPaneW.setStyle("-fx-cursor: move;");
+			borderPaneW.addEventFilter(MouseEvent.ANY, event -> {
+				if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+					initX = event.getSceneX();
+					initY = event.getSceneY();
+				}
+
+				if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+					stage.setX(event.getScreenX() - initX);
+					stage.setY(event.getScreenY() - initY);
+				}
+			});
+		}
+
+		if (MODE) {
+			borderPaneN.addEventFilter(MouseEvent.ANY, event -> {
+				if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+					initY = event.getScreenY();
+					windowY = stage.getY();
+					windowHeight = windowY + stage.getHeight();
+				}
+
+				if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+					double deltaY = event.getScreenY() - initY;
+					if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
+						stage.setY(windowY + deltaY);
+						stage.setHeight(windowHeight - windowY - deltaY);
+					}
+				}
+			});
+		} else {
+			borderPaneN.setStyle("-fx-cursor: move;");
+			borderPaneN.addEventFilter(MouseEvent.ANY, event -> {
+				if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+					initX = event.getSceneX();
+					initY = event.getSceneY();
+				}
+
+				if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+					stage.setX(event.getScreenX() - initX);
+					stage.setY(event.getScreenY() - initY);
+				}
+			});
+		}
+
 
 		borderPaneS.addEventFilter(MouseEvent.ANY, event -> {
 			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
@@ -219,76 +258,86 @@ public class CleanFXwin {
 				double deltaY = event.getSceneY() - initY;
 				if ((windowWidth + deltaX) >= MIN_WIDTH)
 					stage.setWidth(windowWidth + deltaX);
-				if((windowHeight + deltaY) >= MIN_HEIGHT)
-					stage.setHeight(windowHeight + deltaY);
-			}
-		});
-
-		anglePaneSW.addEventFilter(MouseEvent.ANY, event -> {
-			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-				initX = event.getScreenX();
-				initY = event.getSceneY();
-				windowX = stage.getX();
-				windowWidth = windowX + stage.getWidth();
-				windowHeight = stage.getHeight();
-			}
-
-			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaX = event.getScreenX() - initX;
-				double deltaY = event.getSceneY() - initY;
-				if((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
-					stage.setX(windowX + deltaX);
-					stage.setWidth(windowWidth - windowX - deltaX);
-				}
 				if ((windowHeight + deltaY) >= MIN_HEIGHT)
 					stage.setHeight(windowHeight + deltaY);
 			}
 		});
 
-		anglePaneNW.addEventFilter(MouseEvent.ANY, event -> {
-			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-				initX = event.getScreenX();
-				initY = event.getScreenY();
-				windowX = stage.getX();
-				windowY = stage.getY();
-				windowWidth = windowX + stage.getWidth();
-				windowHeight = windowY + stage.getHeight();
-			}
-
-			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaX = event.getScreenX() - initX;
-				double deltaY = event.getScreenY() - initY;
-				if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
-					stage.setX(windowX + deltaX);
-					stage.setWidth(windowWidth - windowX - deltaX);
+		if (MODE) {
+			anglePaneSW.addEventFilter(MouseEvent.ANY, event -> {
+				if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+					initX = event.getScreenX();
+					initY = event.getSceneY();
+					windowX = stage.getX();
+					windowWidth = windowX + stage.getWidth();
+					windowHeight = stage.getHeight();
 				}
-				if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
-					stage.setY(windowY + deltaY);
-					stage.setHeight(windowHeight - windowY - deltaY);
-				}
-			}
-		});
 
-		anglePaneNE.addEventFilter(MouseEvent.ANY, event -> {
-			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
-				initX = event.getSceneX();
-				initY = event.getScreenY();
-				windowY = stage.getY();
-				windowWidth = stage.getWidth();
-				windowHeight = windowY + stage.getHeight();
-			}
-
-			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaX = event.getSceneX() - initX;
-				double deltaY = event.getScreenY() - initY;
-				if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
-					stage.setY(windowY + deltaY);
-					stage.setHeight(windowHeight - windowY - deltaY);
+				if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+					double deltaX = event.getScreenX() - initX;
+					double deltaY = event.getSceneY() - initY;
+					if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
+						stage.setX(windowX + deltaX);
+						stage.setWidth(windowWidth - windowX - deltaX);
+					}
+					if ((windowHeight + deltaY) >= MIN_HEIGHT)
+						stage.setHeight(windowHeight + deltaY);
 				}
-				if ((windowWidth + deltaX) >= MIN_WIDTH)
-					stage.setWidth(windowWidth + deltaX);
-			}
-		});
+			});
+
+
+			anglePaneNW.addEventFilter(MouseEvent.ANY, event -> {
+				if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+					initX = event.getScreenX();
+					initY = event.getScreenY();
+					windowX = stage.getX();
+					windowY = stage.getY();
+					windowWidth = windowX + stage.getWidth();
+					windowHeight = windowY + stage.getHeight();
+				}
+
+				if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+					double deltaX = event.getScreenX() - initX;
+					double deltaY = event.getScreenY() - initY;
+					if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
+						stage.setX(windowX + deltaX);
+						stage.setWidth(windowWidth - windowX - deltaX);
+					}
+					if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
+						stage.setY(windowY + deltaY);
+						stage.setHeight(windowHeight - windowY - deltaY);
+					}
+				}
+			});
+
+			anglePaneNE.addEventFilter(MouseEvent.ANY, event -> {
+				if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
+					initX = event.getSceneX();
+					initY = event.getScreenY();
+					windowY = stage.getY();
+					windowWidth = stage.getWidth();
+					windowHeight = windowY + stage.getHeight();
+				}
+
+				if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+					double deltaX = event.getSceneX() - initX;
+					double deltaY = event.getScreenY() - initY;
+					if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
+						stage.setY(windowY + deltaY);
+						stage.setHeight(windowHeight - windowY - deltaY);
+					}
+					if ((windowWidth + deltaX) >= MIN_WIDTH)
+						stage.setWidth(windowWidth + deltaX);
+				}
+			});
+		} else {
+			anglePaneSW.setDisable(true);
+			anglePaneNE.setDisable(true);
+			anglePaneNW.setDisable(true);
+		}
 	}
 
+	public static void setMode(boolean MODE) {
+		CleanFXwin.MODE = MODE;
+	}
 }

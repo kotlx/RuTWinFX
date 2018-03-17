@@ -15,7 +15,7 @@ public class CleanFXwinDemo extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		Scene scene = CleanFXwin.initResizable(stage);
+		Scene scene = CleanFXwin.initResizable(stage, false);
 
 		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userRoot.fxml"));
 		if (root != null) {
