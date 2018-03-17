@@ -147,31 +147,20 @@ public class CleanFXwin {
 				anglePaneSW, anglePaneNW, anglePaneNE, anglePaneSE);
 	}
 
-	private double oldScreenX = 0D;
-	private boolean markEvenens = false;
 	private void bindingBehavior() {
 		borderPaneW.addEventFilter(MouseEvent.ANY, event -> {
 			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
 				initX = event.getScreenX();
-				System.out.println(initX);
 				windowX = stage.getX();
 				windowWidth = windowX + stage.getWidth();
-				markEvenens = true;
 			}
 
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				if ( (oldScreenX != event.getScreenX()) & markEvenens ) {
-					oldScreenX = event.getScreenX();
-					double deltaX = oldScreenX - initX;
-					if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
-						stage.setWidth(windowWidth - windowX - deltaX);
-						stage.setX(windowX + deltaX);
-
-//					applyTheBounds();
-					}
+				double deltaX = event.getScreenX() - initX;
+				if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
+					stage.setWidth(windowWidth - windowX - deltaX);
+					stage.setX(windowX + deltaX);
 				}
-				markEvenens = !markEvenens;
-				System.out.println(markEvenens);
 			}
 		});
 

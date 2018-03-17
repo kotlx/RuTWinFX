@@ -1,9 +1,9 @@
 #idBackgroundAnchorPane {
-	-fx-background-color: rgba(0, 0, 0, 0.5);
+	-fx-background-color: rgba(0, 0, 0, 0.01);
 }
 
 .BorderPane {
-	-fx-background-color: rgba(85, 255, 0, 0.5);
+	-fx-background-color: rgba(0, 0, 0, 0.01);
 }
 
 #idBorderPaneS {
@@ -23,21 +23,17 @@
 }
 
 #idAnglePaneSW {
-	-fx-background-color: rgba(230, 240, 0, 0.9);
 	-fx-cursor: sw-resize;
 }
 
 #idAnglePaneNW {
-	-fx-background-color: rgba(230, 240, 0, 0.9);
 	-fx-cursor: nw-resize; 
 }
 
 #idAnglePaneNE {
-	-fx-background-color: rgba(230, 240, 0, 0.9);
 	-fx-cursor: ne-resize;
 }
 
 #idAnglePaneSE {
-	-fx-background-color: rgba(230, 240, 0, 0.9);
 	-fx-cursor: se-resize;
 } 
