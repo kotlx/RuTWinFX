@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class CleanFXwin {
 	private static Stage stage;
 	private static final CleanFXwin cw = new CleanFXwin();
@@ -21,15 +22,15 @@ public class CleanFXwin {
 	private static int PREF_WIDTH = 600;
 	private static final int BORDER_WIDTH = 8;
 	private static final int ANGLE_WIDTH = 15;
-	private static double initX = 0;
 
+	private static double initX = 0;
 	private static double initY = 0;
 	private static double windowWidth = 0;
 	private static double windowHeight = 0;
 	private static double windowX = 0;
 	private static double windowY = 0;
-	private static AnchorPane backgroundPane;
 
+	private static AnchorPane backgroundPane;
 	private static Pane borderPaneS;
 	private static Pane borderPaneW;
 	private static Pane borderPaneN;
@@ -42,6 +43,7 @@ public class CleanFXwin {
 	private CleanFXwin() {
 	}
 
+	@SuppressWarnings("SpellCheckingInspection")
 	public static Scene initResizable(Stage stg) {
 		stage = stg;
 		backgroundPane = new AnchorPane();

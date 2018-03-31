@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class CleanFXwinDemo extends Application {
 
 	public static void main(String[] args) {
