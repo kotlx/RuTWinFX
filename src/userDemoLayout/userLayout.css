@@ -1,0 +1,25 @@
+#idBackground {
+	-fx-background-color: rgba(0,0,0,0.5);
+}
+
+.dashPanel {
+	-fx-background-color: rgba(255,230,0,0.3);
+}
+
+.controlUnits {
+	-fx-background-color: rgba(150,255,0,0.8);
+}
+
+#idTopRightArea {
+	-fx-spacing: 5;
+	-fx-alignment: top-right;
+}
+
+#idTopLeftArea {
+	-fx-spacing: 5;
+}
+
+#idBottomArea {
+	
+}
+

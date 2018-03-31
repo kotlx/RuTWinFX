@@ -1,4 +1,4 @@
-import cleanWin.kotlx.ru.CleanFXwin;
+import RuTWinFX.kotlx.ru.RuTWinFX;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 @SuppressWarnings("SpellCheckingInspection")
-public class CleanFXwinDemo extends Application {
+public class DemoRwTWinXF extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
@@ -16,14 +16,12 @@ public class CleanFXwinDemo extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		Scene scene = CleanFXwin.initResizable(stage, false);
+		Scene scene = RuTWinFX.initResizable(stage);
 
-		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userRoot.fxml"));
+		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userLayout.fxml"));
 		if (root != null) {
-			CleanFXwin.setRoot(root);
+			RuTWinFX.setRoot(root);
 		}
-
-		//TODO Созадать оформление окна
 
 		stage.setScene(scene);
 		stage.show();

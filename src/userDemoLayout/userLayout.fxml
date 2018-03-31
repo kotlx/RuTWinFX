@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane id="idBackground" prefHeight="400.0" prefWidth="600.0" stylesheets="@userLayout.css"
+            xmlns="http://javafx.com/javafx/8.0.141">
+   <AnchorPane id="idTopArea " layoutX="207.0" layoutY="46.0" prefHeight="30.0" styleClass="dashPanel"
+               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox id="idTopLeftArea" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <Pane prefHeight="20.0" prefWidth="20.0" styleClass="controlUnits"/>
+      </HBox>
+      <HBox id="idTopRightArea" prefHeight="20.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <Pane prefHeight="20.0" prefWidth="20.0" styleClass="controlUnits"/>
+         <Pane prefHeight="20.0" prefWidth="20.0" styleClass="controlUnits"/>
+         <Pane prefHeight="20.0" prefWidth="20.0" styleClass="controlUnits"/>
+      </HBox>
+   </AnchorPane>
+   <HBox id="idBottomArea" layoutX="200.0" layoutY="286.0" prefHeight="50.0" prefWidth="200.0" styleClass="dashPanel"
+         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+</AnchorPane>

@@ -1,9 +1,9 @@
 #idBackgroundAnchorPane {
-	-fx-background-color: rgba(0, 0, 0, 0.01);
+	-fx-background-color: rgba(0, 0, 0, 0.5);
 }
 
 .BorderPane {
-	-fx-background-color: rgba(0, 0, 0, 0.01);
+	-fx-background-color: rgba(255, 230, 0, 0.5);
 }
 
 #idBorderPaneS {
