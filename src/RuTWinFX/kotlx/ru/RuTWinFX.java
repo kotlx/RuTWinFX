@@ -14,15 +14,17 @@ import javafx.stage.StageStyle;
 public class RuTWinFX {
 	private static final RuTWinFX rutw = new RuTWinFX();
 
-	private static final double SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth();
-	private static final double SCREEN_HEIGHT = Screen.getPrimary().getBounds().getHeight();
+	private static final double SCREEN_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
+	private static final double SCREEN_HEIGHT = Screen.getPrimary().getVisualBounds().getHeight();
 
 	private static double MIN_WIDTH = 100d;
 	private static double MIN_HEIGHT = 100d;
 	private static double PREF_WIDTH = 400d;
 	private static double PREF_HEIGHT = 300d;
+	private static final double STICK_WIDTH = 10d;
 	private static final double BORDER_WIDTH = 8d;
 	private static final double ANGLE_WIDTH = 16d;
+	private static final double DEV = 2d;
 
 	private static double initX = 0;
 	private static double initY = 0;
@@ -153,12 +155,19 @@ public class RuTWinFX {
 			}
 
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaX = event.getScreenX() - initX;
-				if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
-					backgroundPane.setPrefWidth(windowWidth - windowX - deltaX);
+				final double deltaX = event.getScreenX() - initX;
+				final double newWeight = windowWidth - windowX - deltaX;
+				// Проверяем левый край не меньше ли минимального размера и не меньше ли размеров экрана
+				if ((newWeight >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
+					backgroundPane.setPrefWidth(newWeight);
 					backgroundPane.setLayoutX(windowX + deltaX);
+				// Если край меньше размеров экрана то устанавливаем его рвным 0 с учетом ширины бордюра
+				} else if (event.getScreenX() <= STICK_WIDTH) {
+					backgroundPane.setLayoutX(-BORDER_WIDTH / DEV);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH / DEV);
 				}
 			}
+			event.consume();
 		});
 
 		borderPaneN.addEventFilter(MouseEvent.ANY, event -> {
@@ -169,12 +178,17 @@ public class RuTWinFX {
 			}
 
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaY = event.getScreenY() - initY;
-				if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
+				final double deltaY = event.getScreenY() - initY;
+				final double newHeight = windowHeight - windowY - deltaY;
+				if ( (newHeight >= MIN_HEIGHT) & (event.getScreenY() > STICK_WIDTH)) {
 					backgroundPane.setLayoutY(windowY + deltaY);
-					backgroundPane.setPrefHeight(windowHeight - windowY - deltaY);
+					backgroundPane.setPrefHeight(newHeight);
+				} else if (event.getScreenY()<= STICK_WIDTH) {
+					backgroundPane.setLayoutY(-BORDER_WIDTH / DEV);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH / DEV);
 				}
 			}
+			event.consume();
 		});
 
 		borderPaneS.addEventFilter(MouseEvent.ANY, event -> {
@@ -184,10 +198,14 @@ public class RuTWinFX {
 			}
 
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaY = event.getSceneY() - initY;
-				if ((windowHeight + deltaY) >= MIN_HEIGHT)
-					backgroundPane.setPrefHeight(windowHeight + deltaY);
+				final double deltaY = event.getSceneY() - initY;
+				final double newHeight = windowHeight + deltaY;
+				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
+					backgroundPane.setPrefHeight(newHeight);
+				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH / DEV);
 			}
+			event.consume();
 		});
 
 		borderPaneE.addEventFilter(MouseEvent.ANY, event -> {
@@ -197,10 +215,14 @@ public class RuTWinFX {
 			}
 
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaX = event.getSceneX() - initX;
-				if ((windowWidth + deltaX) >= MIN_WIDTH)
+				final double deltaX = event.getSceneX() - initX;
+				final double newWidth = windowWidth + deltaX;
+				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
+				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH / DEV);
 			}
+			event.consume();
 		});
 
 		anglePaneSE.addEventFilter(MouseEvent.ANY, event -> {
