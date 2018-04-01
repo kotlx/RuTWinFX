@@ -156,10 +156,10 @@ public class RuTWinFX {
 
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 				final double deltaX = event.getScreenX() - initX;
-				final double newWeight = windowWidth - windowX - deltaX;
+				final double newWidth = windowWidth - windowX - deltaX;
 				// Проверяем левый край не меньше ли минимального размера и не меньше ли размеров экрана
-				if ((newWeight >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
-					backgroundPane.setPrefWidth(newWeight);
+				if ((newWidth >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
+					backgroundPane.setPrefWidth(newWidth);
 					backgroundPane.setLayoutX(windowX + deltaX);
 				// Если край меньше размеров экрана то устанавливаем его рвным 0 с учетом ширины бордюра
 				} else if (event.getScreenX() <= STICK_WIDTH) {
@@ -236,11 +236,20 @@ public class RuTWinFX {
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 				double deltaX = event.getSceneX() - initX;
 				double deltaY = event.getSceneY() - initY;
-				if ((windowWidth + deltaX) >= MIN_WIDTH)
+				final double newWidth = windowWidth + deltaX;
+				final double newHeight = windowHeight + deltaY;
+				// Право
+				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
-				if ((windowHeight + deltaY) >= MIN_HEIGHT)
-					backgroundPane.setPrefHeight(windowHeight + deltaY);
+				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH / DEV);
+				// Низ
+				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
+					backgroundPane.setPrefHeight(newHeight);
+				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH / DEV);
 			}
+			event.consume();
 		});
 
 		anglePaneSW.addEventFilter(MouseEvent.ANY, event -> {
@@ -253,15 +262,25 @@ public class RuTWinFX {
 			}
 
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				double deltaX = event.getScreenX() - initX;
-				double deltaY = event.getSceneY() - initY;
-				if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
+				final double deltaX = event.getScreenX() - initX;
+				final double deltaY = event.getSceneY() - initY;
+				final double newWidth = windowWidth - windowX - deltaX;
+				final double newHeight = windowHeight + deltaY;
+				// Лево
+				if ((newWidth >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
 					backgroundPane.setLayoutX(windowX + deltaX);
-					backgroundPane.setPrefWidth(windowWidth - windowX - deltaX);
+					backgroundPane.setPrefWidth(newWidth);
+				} else if (event.getScreenX() <= STICK_WIDTH) {
+					backgroundPane.setLayoutX(-BORDER_WIDTH / DEV);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH / DEV);
 				}
-				if ((windowHeight + deltaY) >= MIN_HEIGHT)
-					backgroundPane.setPrefHeight(windowHeight + deltaY);
+				// Низ
+				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
+					backgroundPane.setPrefHeight(newHeight);
+				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH / DEV);
 			}
+			event.consume();
 		});
 
 		anglePaneNW.addEventFilter(MouseEvent.ANY, event -> {
@@ -277,15 +296,26 @@ public class RuTWinFX {
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 				double deltaX = event.getScreenX() - initX;
 				double deltaY = event.getScreenY() - initY;
-				if ((windowWidth - windowX - deltaX) >= MIN_WIDTH) {
-					backgroundPane.setLayoutX(windowX + deltaX);
-					backgroundPane.setPrefWidth(windowWidth - windowX - deltaX);
-				}
-				if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
+				final double newWidth = windowWidth - windowX - deltaX;
+				final double newHeight = windowHeight - windowY - deltaY;
+				// Верх
+				if ( (newHeight >= MIN_HEIGHT) & (event.getScreenY() > STICK_WIDTH)) {
 					backgroundPane.setLayoutY(windowY + deltaY);
-					backgroundPane.setPrefHeight(windowHeight - windowY - deltaY);
+					backgroundPane.setPrefHeight(newHeight);
+				} else if (event.getScreenY()<= STICK_WIDTH) {
+					backgroundPane.setLayoutY(-BORDER_WIDTH / DEV);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH / DEV);
+				}
+				// Лева
+				if ((newWidth >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
+					backgroundPane.setLayoutX(windowX + deltaX);
+					backgroundPane.setPrefWidth(newWidth);
+				} else if (event.getScreenX() <= STICK_WIDTH) {
+					backgroundPane.setLayoutX(-BORDER_WIDTH / DEV);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH / DEV);
 				}
 			}
+			event.consume();
 		});
 
 		anglePaneNE.addEventFilter(MouseEvent.ANY, event -> {
@@ -300,13 +330,23 @@ public class RuTWinFX {
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 				double deltaX = event.getSceneX() - initX;
 				double deltaY = event.getScreenY() - initY;
-				if ((windowHeight - windowY - deltaY) >= MIN_HEIGHT) {
+				final double newWidth = windowWidth + deltaX;
+				final double newHeight = windowHeight - windowY - deltaY;
+				// Верх
+				if ( (newHeight >= MIN_HEIGHT) & (event.getScreenY() > STICK_WIDTH)) {
 					backgroundPane.setLayoutY(windowY + deltaY);
-					backgroundPane.setPrefHeight(windowHeight - windowY - deltaY);
+					backgroundPane.setPrefHeight(newHeight);
+				} else if (event.getScreenY()<= STICK_WIDTH) {
+					backgroundPane.setLayoutY(-BORDER_WIDTH / DEV);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH / DEV);
 				}
-				if ((windowWidth + deltaX) >= MIN_WIDTH)
+				// Право
+				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
+				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH / DEV);
 			}
+			event.consume();
 		});
 	}
 
