@@ -74,32 +74,32 @@ public class RuTWinFX {
 		borderPaneS.getStyleClass().add("BorderPane");
 		borderPaneS.setPrefHeight(BORDER_WIDTH);
 		AnchorPane.setBottomAnchor(borderPaneS, 0.0);
-		AnchorPane.setLeftAnchor(borderPaneS, ANGLE_WIDTH);
-		AnchorPane.setRightAnchor(borderPaneS, ANGLE_WIDTH);
+		AnchorPane.setLeftAnchor(borderPaneS, 6.0);
+		AnchorPane.setRightAnchor(borderPaneS, 6.0);
 
 		borderPaneW = new Pane();
 		borderPaneW.setId("idBorderPaneW");
 		borderPaneW.getStyleClass().add("BorderPane");
 		borderPaneW.setPrefWidth(BORDER_WIDTH);
 		AnchorPane.setLeftAnchor(borderPaneW, 0.0);
-		AnchorPane.setBottomAnchor(borderPaneW, ANGLE_WIDTH);
-		AnchorPane.setTopAnchor(borderPaneW, ANGLE_WIDTH);
+		AnchorPane.setBottomAnchor(borderPaneW, 6.0);
+		AnchorPane.setTopAnchor(borderPaneW, 6.0);
 
 		borderPaneN = new Pane();
 		borderPaneN.setId("idBorderPaneN");
 		borderPaneN.getStyleClass().add("BorderPane");
 		borderPaneN.setPrefHeight(BORDER_WIDTH);
 		AnchorPane.setTopAnchor(borderPaneN, 0.0);
-		AnchorPane.setLeftAnchor(borderPaneN, ANGLE_WIDTH);
-		AnchorPane.setRightAnchor(borderPaneN, ANGLE_WIDTH);
+		AnchorPane.setLeftAnchor(borderPaneN, 6.0);
+		AnchorPane.setRightAnchor(borderPaneN, 6.0);
 
 		borderPaneE = new Pane();
 		borderPaneE.setId("idBorderPaneE");
 		borderPaneE.getStyleClass().add("BorderPane");
 		borderPaneE.setPrefWidth(BORDER_WIDTH);
 		AnchorPane.setRightAnchor(borderPaneE, 0.0);
-		AnchorPane.setTopAnchor(borderPaneE, ANGLE_WIDTH);
-		AnchorPane.setBottomAnchor(borderPaneE, ANGLE_WIDTH);
+		AnchorPane.setTopAnchor(borderPaneE, 6.0);
+		AnchorPane.setBottomAnchor(borderPaneE, 6.0);
 
 		anglePaneSW = new Pane();
 		anglePaneSW.setId("idAnglePaneSW");
