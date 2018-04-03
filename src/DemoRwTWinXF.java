@@ -16,7 +16,7 @@ public class DemoRwTWinXF extends Application {
 
 	@Override
 	public void start(Stage stage) throws IOException {
-		Scene scene = RuTWinFX.initResizable(stage);
+		Scene scene = RuTWinFX.init(stage);
 
 		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userLayout.fxml"));
 		if (root != null) {

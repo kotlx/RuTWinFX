@@ -1,15 +1,15 @@
 package RuTWinFX.kotlx.ru;
 
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+		import javafx.scene.Group;
+		import javafx.scene.Parent;
+		import javafx.scene.Scene;
+		import javafx.scene.input.MouseEvent;
+		import javafx.scene.layout.AnchorPane;
+		import javafx.scene.layout.Pane;
+		import javafx.scene.paint.Color;
+		import javafx.stage.Screen;
+		import javafx.stage.Stage;
+		import javafx.stage.StageStyle;
 
 public class RuTWinFX {
 	private static final RuTWinFX rutw = new RuTWinFX();
@@ -24,7 +24,7 @@ public class RuTWinFX {
 	private static final double STICK_WIDTH = 10d;
 	private static final double BORDER_WIDTH = 8d;
 	private static final double ANGLE_WIDTH = 16d;
-	private static final double DEV = 2d;
+	private static final double DEV = 2.6;
 
 	private static double initX = 0;
 	private static double initY = 0;
@@ -46,7 +46,7 @@ public class RuTWinFX {
 	private RuTWinFX() {
 	}
 
-	public static Scene initResizable(final Stage stage) {
+	public static Scene init(final Stage stage) {
 		final Group screenArea = new Group(rutw.buildFrame());
 		stage.initStyle(StageStyle.TRANSPARENT);
 		Scene scene = new Scene(screenArea, SCREEN_WIDTH, SCREEN_HEIGHT, Color.TRANSPARENT);
@@ -54,18 +54,18 @@ public class RuTWinFX {
 		return scene;
 	}
 
-	public static Scene initResizable(Stage stage, int prefWidth, int prefHeight) {
+	public static Scene init(Stage stage, int prefWidth, int prefHeight) {
 		PREF_HEIGHT = prefHeight;
 		PREF_WIDTH = prefWidth;
-		return initResizable(stage);
+		return init(stage);
 	}
 
-	public static Scene initResizable(Stage stage, int prefWidth, int prefHeight, int minWidth, int minHeight) {
+	public static Scene init(Stage stage, int prefWidth, int prefHeight, int minWidth, int minHeight) {
 		PREF_WIDTH = prefWidth;
 		PREF_HEIGHT = prefHeight;
 		MIN_WIDTH = minWidth;
 		MIN_HEIGHT = minHeight;
-		return initResizable(stage);
+		return init(stage);
 	}
 
 	private AnchorPane buildFrame() {
@@ -74,32 +74,32 @@ public class RuTWinFX {
 		borderPaneS.getStyleClass().add("BorderPane");
 		borderPaneS.setPrefHeight(BORDER_WIDTH);
 		AnchorPane.setBottomAnchor(borderPaneS, 0.0);
-		AnchorPane.setLeftAnchor(borderPaneS, 6.0);
-		AnchorPane.setRightAnchor(borderPaneS, 6.0);
+		AnchorPane.setLeftAnchor(borderPaneS, ANGLE_WIDTH - 1);
+		AnchorPane.setRightAnchor(borderPaneS, ANGLE_WIDTH - 1);
 
 		borderPaneW = new Pane();
 		borderPaneW.setId("idBorderPaneW");
 		borderPaneW.getStyleClass().add("BorderPane");
 		borderPaneW.setPrefWidth(BORDER_WIDTH);
 		AnchorPane.setLeftAnchor(borderPaneW, 0.0);
-		AnchorPane.setBottomAnchor(borderPaneW, 6.0);
-		AnchorPane.setTopAnchor(borderPaneW, 6.0);
+		AnchorPane.setBottomAnchor(borderPaneW, ANGLE_WIDTH - 1);
+		AnchorPane.setTopAnchor(borderPaneW, ANGLE_WIDTH - 1);
 
 		borderPaneN = new Pane();
 		borderPaneN.setId("idBorderPaneN");
 		borderPaneN.getStyleClass().add("BorderPane");
 		borderPaneN.setPrefHeight(BORDER_WIDTH);
 		AnchorPane.setTopAnchor(borderPaneN, 0.0);
-		AnchorPane.setLeftAnchor(borderPaneN, 6.0);
-		AnchorPane.setRightAnchor(borderPaneN, 6.0);
+		AnchorPane.setLeftAnchor(borderPaneN, ANGLE_WIDTH - 1 );
+		AnchorPane.setRightAnchor(borderPaneN, ANGLE_WIDTH - 1);
 
 		borderPaneE = new Pane();
 		borderPaneE.setId("idBorderPaneE");
 		borderPaneE.getStyleClass().add("BorderPane");
 		borderPaneE.setPrefWidth(BORDER_WIDTH);
 		AnchorPane.setRightAnchor(borderPaneE, 0.0);
-		AnchorPane.setTopAnchor(borderPaneE, 6.0);
-		AnchorPane.setBottomAnchor(borderPaneE, 6.0);
+		AnchorPane.setTopAnchor(borderPaneE, ANGLE_WIDTH - 1);
+		AnchorPane.setBottomAnchor(borderPaneE, ANGLE_WIDTH - 1);
 
 		anglePaneSW = new Pane();
 		anglePaneSW.setId("idAnglePaneSW");
@@ -161,7 +161,7 @@ public class RuTWinFX {
 				if ((newWidth >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
 					backgroundPane.setPrefWidth(newWidth);
 					backgroundPane.setLayoutX(windowX + deltaX);
-				// Если край меньше размеров экрана то устанавливаем его рвным 0 с учетом ширины бордюра
+					// Если край меньше размеров экрана то устанавливаем его рвным 0 с учетом ширины бордюра
 				} else if (event.getScreenX() <= STICK_WIDTH) {
 					backgroundPane.setLayoutX(-BORDER_WIDTH / DEV);
 					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH / DEV);
