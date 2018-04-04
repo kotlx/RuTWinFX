@@ -1,11 +1,11 @@
 package RuTWinFX.kotlx.ru;
 
 		import javafx.scene.Group;
-		import javafx.scene.Parent;
 		import javafx.scene.Scene;
 		import javafx.scene.input.MouseEvent;
 		import javafx.scene.layout.AnchorPane;
 		import javafx.scene.layout.Pane;
+		import javafx.scene.layout.Region;
 		import javafx.scene.paint.Color;
 		import javafx.stage.Screen;
 		import javafx.stage.Stage;
@@ -52,20 +52,6 @@ public class RuTWinFX {
 		Scene scene = new Scene(screenArea, SCREEN_WIDTH, SCREEN_HEIGHT, Color.TRANSPARENT);
 		scene.getStylesheets().add("/RuTWinFX/kotlx/ru/res/bgStyle.css");
 		return scene;
-	}
-
-	public static Scene init(Stage stage, int prefWidth, int prefHeight) {
-		PREF_HEIGHT = prefHeight;
-		PREF_WIDTH = prefWidth;
-		return init(stage);
-	}
-
-	public static Scene init(Stage stage, int prefWidth, int prefHeight, int minWidth, int minHeight) {
-		PREF_WIDTH = prefWidth;
-		PREF_HEIGHT = prefHeight;
-		MIN_WIDTH = minWidth;
-		MIN_HEIGHT = minHeight;
-		return init(stage);
 	}
 
 	private AnchorPane buildFrame() {
@@ -350,11 +336,30 @@ public class RuTWinFX {
 		});
 	}
 
-	public static <T extends Parent> void setRoot(T userContent) {
+	public static <T extends Region> void setRoot(T userContent) {
+		if (userContent == null) throw new NullPointerException();
+
 		AnchorPane.setTopAnchor(userContent, BORDER_WIDTH);
 		AnchorPane.setRightAnchor(userContent, BORDER_WIDTH);
 		AnchorPane.setBottomAnchor(userContent, BORDER_WIDTH);
 		AnchorPane.setLeftAnchor(userContent, BORDER_WIDTH);
+
+		if (PREF_WIDTH > userContent.getPrefWidth()) {
+			userContent.setPrefHeight(PREF_WIDTH - 2 * BORDER_WIDTH);
+		}
+		else PREF_WIDTH = userContent.getPrefWidth() + 2 * BORDER_WIDTH;
+
+		if (PREF_HEIGHT > userContent.getMinHeight())
+			userContent.setPrefHeight(PREF_HEIGHT -  2 * PREF_HEIGHT);
+		else PREF_HEIGHT = userContent.getPrefHeight() + 2 * PREF_HEIGHT;
+
+		if (MIN_WIDTH > userContent.getMinWidth())
+			userContent.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
+		else MIN_WIDTH = userContent.getMinWidth() + 2 * BORDER_WIDTH;
+
+		if (MIN_HEIGHT > userContent.getMinHeight())
+			userContent.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
+		else MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
 
 		backgroundPane.getChildren().add(userContent);
 	}

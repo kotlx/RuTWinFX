@@ -19,9 +19,7 @@ public class DemoRwTWinXF extends Application {
 		Scene scene = RuTWinFX.init(stage);
 
 		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userLayout.fxml"));
-		if (root != null) {
-			RuTWinFX.setRoot(root);
-		}
+		RuTWinFX.setRoot(root);
 
 		stage.setScene(scene);
 		stage.show();
