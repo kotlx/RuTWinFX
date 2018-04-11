@@ -27,7 +27,7 @@ public class RuTWinFX {
 	private static final double STICK_WIDTH = 10d;
 	private static final double BORDER_WIDTH = 8d;
 	private static final double ANGLE_WIDTH = 16d;
-	private static final double DEV = 2.8;
+	private static final double INDENT = 2;
 
 	private static double initX = 0;
 	private static double initY = 0;
@@ -63,36 +63,36 @@ public class RuTWinFX {
 		borderPaneS.getStyleClass().add("BorderPane");
 		borderPaneS.setPrefHeight(BORDER_WIDTH);
 		AnchorPane.setBottomAnchor(borderPaneS, 0.0);
-		AnchorPane.setLeftAnchor(borderPaneS, ANGLE_WIDTH - 1);
-		AnchorPane.setRightAnchor(borderPaneS, ANGLE_WIDTH - 1);
+		AnchorPane.setLeftAnchor(borderPaneS, BORDER_WIDTH);
+		AnchorPane.setRightAnchor(borderPaneS, BORDER_WIDTH);
 
 		borderPaneW = new Pane();
 		borderPaneW.setId("idBorderPaneW");
 		borderPaneW.getStyleClass().add("BorderPane");
 		borderPaneW.setPrefWidth(BORDER_WIDTH);
 		AnchorPane.setLeftAnchor(borderPaneW, 0.0);
-		AnchorPane.setBottomAnchor(borderPaneW, ANGLE_WIDTH - 1);
-		AnchorPane.setTopAnchor(borderPaneW, ANGLE_WIDTH - 1);
+		AnchorPane.setBottomAnchor(borderPaneW, BORDER_WIDTH);
+		AnchorPane.setTopAnchor(borderPaneW, BORDER_WIDTH);
 
 		borderPaneN = new Pane();
 		borderPaneN.setId("idBorderPaneN");
 		borderPaneN.getStyleClass().add("BorderPane");
 		borderPaneN.setPrefHeight(BORDER_WIDTH);
 		AnchorPane.setTopAnchor(borderPaneN, 0.0);
-		AnchorPane.setLeftAnchor(borderPaneN, ANGLE_WIDTH - 1 );
-		AnchorPane.setRightAnchor(borderPaneN, ANGLE_WIDTH - 1);
+		AnchorPane.setLeftAnchor(borderPaneN, BORDER_WIDTH );
+		AnchorPane.setRightAnchor(borderPaneN, BORDER_WIDTH);
 
 		borderPaneE = new Pane();
 		borderPaneE.setId("idBorderPaneE");
 		borderPaneE.getStyleClass().add("BorderPane");
 		borderPaneE.setPrefWidth(BORDER_WIDTH);
 		AnchorPane.setRightAnchor(borderPaneE, 0.0);
-		AnchorPane.setTopAnchor(borderPaneE, ANGLE_WIDTH - 1);
-		AnchorPane.setBottomAnchor(borderPaneE, ANGLE_WIDTH - 1);
+		AnchorPane.setTopAnchor(borderPaneE, BORDER_WIDTH);
+		AnchorPane.setBottomAnchor(borderPaneE, BORDER_WIDTH);
 
 		anglePaneSW = new Pane();
 		anglePaneSW.setId("idAnglePaneSW");
-		anglePaneSW.getStyleClass().add("BorderPane");
+		anglePaneSW.getStyleClass().add("AnglePane");
 		anglePaneSW.setPrefWidth(ANGLE_WIDTH);
 		anglePaneSW.setPrefHeight(ANGLE_WIDTH);
 		AnchorPane.setBottomAnchor(anglePaneSW, 0.0);
@@ -100,7 +100,7 @@ public class RuTWinFX {
 
 		anglePaneNW = new Pane();
 		anglePaneNW.setId("idAnglePaneNW");
-		anglePaneNW.getStyleClass().add("BorderPane");
+		anglePaneNW.getStyleClass().add("AnglePane");
 		anglePaneNW.setPrefWidth(ANGLE_WIDTH);
 		anglePaneNW.setPrefHeight(ANGLE_WIDTH);
 		AnchorPane.setTopAnchor(anglePaneNW, 0.0);
@@ -108,7 +108,7 @@ public class RuTWinFX {
 
 		anglePaneNE = new Pane();
 		anglePaneNE.setId("idAnglePaneNE");
-		anglePaneNE.getStyleClass().add("BorderPane");
+		anglePaneNE.getStyleClass().add("AnglePane");
 		anglePaneNE.setPrefWidth(ANGLE_WIDTH);
 		anglePaneNE.setPrefHeight(ANGLE_WIDTH);
 		AnchorPane.setTopAnchor(anglePaneNE, 0.0);
@@ -116,7 +116,7 @@ public class RuTWinFX {
 
 		anglePaneSE = new Pane();
 		anglePaneSE.setId("idAnglePaneSE");
-		anglePaneSE.getStyleClass().add("BorderPane");
+		anglePaneSE.getStyleClass().add("AnglePane");
 		anglePaneSE.setPrefWidth(ANGLE_WIDTH);
 		anglePaneSE.setPrefHeight(ANGLE_WIDTH);
 		AnchorPane.setBottomAnchor(anglePaneSE, 0.0);
@@ -152,8 +152,8 @@ public class RuTWinFX {
 					backgroundPane.setLayoutX(windowX + deltaX);
 					// Если край меньше размеров экрана то устанавливаем его рвным 0 с учетом ширины бордюра
 				} else if (event.getScreenX() <= STICK_WIDTH) {
-					backgroundPane.setLayoutX(-BORDER_WIDTH / DEV);
-					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH / DEV);
+					backgroundPane.setLayoutX(-BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH + INDENT);
 				}
 			}
 			event.consume();
@@ -173,8 +173,8 @@ public class RuTWinFX {
 					backgroundPane.setLayoutY(windowY + deltaY);
 					backgroundPane.setPrefHeight(newHeight);
 				} else if (event.getScreenY()<= STICK_WIDTH) {
-					backgroundPane.setLayoutY(-BORDER_WIDTH / DEV);
-					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH / DEV);
+					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH + INDENT);
 				}
 			}
 			event.consume();
@@ -192,7 +192,7 @@ public class RuTWinFX {
 				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
 					backgroundPane.setPrefHeight(newHeight);
 				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
-					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH / DEV);
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH + INDENT);
 			}
 			event.consume();
 		});
@@ -209,7 +209,7 @@ public class RuTWinFX {
 				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
 				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
-					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH / DEV);
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH + INDENT);
 			}
 			event.consume();
 		});
@@ -231,12 +231,12 @@ public class RuTWinFX {
 				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
 				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
-					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH / DEV);
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH + INDENT);
 				// Низ
 				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
 					backgroundPane.setPrefHeight(newHeight);
 				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
-					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH / DEV);
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH + INDENT);
 			}
 			event.consume();
 		});
@@ -260,14 +260,14 @@ public class RuTWinFX {
 					backgroundPane.setLayoutX(windowX + deltaX);
 					backgroundPane.setPrefWidth(newWidth);
 				} else if (event.getScreenX() <= STICK_WIDTH) {
-					backgroundPane.setLayoutX(-BORDER_WIDTH / DEV);
-					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH / DEV);
+					backgroundPane.setLayoutX(-BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH + INDENT);
 				}
 				// Низ
 				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
 					backgroundPane.setPrefHeight(newHeight);
 				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
-					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH / DEV);
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH + INDENT);
 			}
 			event.consume();
 		});
@@ -292,16 +292,16 @@ public class RuTWinFX {
 					backgroundPane.setLayoutY(windowY + deltaY);
 					backgroundPane.setPrefHeight(newHeight);
 				} else if (event.getScreenY()<= STICK_WIDTH) {
-					backgroundPane.setLayoutY(-BORDER_WIDTH / DEV);
-					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH / DEV);
+					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH + INDENT);
 				}
 				// Лева
 				if ((newWidth >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
 					backgroundPane.setLayoutX(windowX + deltaX);
 					backgroundPane.setPrefWidth(newWidth);
 				} else if (event.getScreenX() <= STICK_WIDTH) {
-					backgroundPane.setLayoutX(-BORDER_WIDTH / DEV);
-					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH / DEV);
+					backgroundPane.setLayoutX(-BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH + INDENT);
 				}
 			}
 			event.consume();
@@ -326,14 +326,14 @@ public class RuTWinFX {
 					backgroundPane.setLayoutY(windowY + deltaY);
 					backgroundPane.setPrefHeight(newHeight);
 				} else if (event.getScreenY()<= STICK_WIDTH) {
-					backgroundPane.setLayoutY(-BORDER_WIDTH / DEV);
-					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH / DEV);
+					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH + INDENT);
 				}
 				// Право
 				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
 				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
-					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH / DEV);
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH + INDENT);
 			}
 			event.consume();
 		});

@@ -3,26 +3,31 @@
 }
 
 #idBorderPaneS {
-	-fx-background-color: linear-gradient(to bottom, black ,rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.01) 90% );
+	-fx-background-color: linear-gradient(to bottom, black ,rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.01) 90% );
 	-fx-cursor: s-resize;
 }
 
 #idBorderPaneW {
-	-fx-background-color: linear-gradient(to left, black , rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.01) 90% );
+	-fx-background-color: linear-gradient(to left, black , rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.01) 90% );
 	-fx-cursor: w-resize;
 }
 
 #idBorderPaneN {
-    -fx-background-color: linear-gradient(to top, black , rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.01) 90% );
+    -fx-background-color: linear-gradient(to top, black , rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.01) 90% );
 	-fx-cursor: n-resize;
 }
 
 #idBorderPaneE {
-	-fx-background-color: linear-gradient(to right, black , rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.01) 90% );
+	-fx-background-color: linear-gradient(to right, black , rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.1) 25%, rgba(0,0,0,0.01) 90% );
 	-fx-cursor: e-resize;
 }
 
+.AnglePane {
+	-fx-background-image: url(cornerLight.png);
+}
+
 #idAnglePaneSW {
+	-fx-rotate: 270;
 	-fx-cursor: sw-resize;
 }
 
@@ -31,9 +36,11 @@
 }
 
 #idAnglePaneNE {
+	-fx-rotate: 90;
 	-fx-cursor: ne-resize;
 }
 
 #idAnglePaneSE {
+	-fx-rotate: 180;
 	-fx-cursor: se-resize;
 } 

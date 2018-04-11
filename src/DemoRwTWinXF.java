@@ -17,10 +17,10 @@ public class DemoRwTWinXF extends Application {
 	@Override
 	public void start(Stage stage) throws IOException {
 		Scene scene = RuTWinFX.init(stage);
+		RuTWinFX.setStylesheet(getClass().getResource("/kotlx/ru/RuTWinFX/res/bgStyleLight.css"));
 
 		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userLayout.fxml"));
 		RuTWinFX.setRoot(root);
-		RuTWinFX.setStylesheet(getClass().getResource("/kotlx/ru/RuTWinFX/res/bgStyleLight.css"));
 
 		stage.setScene(scene);
 		stage.show();
