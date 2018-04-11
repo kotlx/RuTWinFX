@@ -2,9 +2,6 @@
 	-fx-background-color: transparent;
 }
 
-.BorderPane {
-}
-
 #idBorderPaneS {
 	-fx-background-color: linear-gradient(to bottom, black ,rgba(90,90,90,0.8) 20%, rgba(0,0,0,0.3) 25%, rgba(0,0,0,0.01) 90% );
 	-fx-cursor: s-resize;
@@ -26,24 +23,17 @@
 }
 
 #idAnglePaneSW {
-	-fx-background-image: url(corner16.png);
-	-fx-rotate: 270;
 	-fx-cursor: sw-resize;
 }
 
 #idAnglePaneNW {
-	-fx-background-image: url(corner16.png);
 	-fx-cursor: nw-resize; 
 }
 
 #idAnglePaneNE {
-	-fx-background-image: url(corner16.png);
-	-fx-rotate: 90;
 	-fx-cursor: ne-resize;
 }
 
 #idAnglePaneSE {
-	-fx-background-image: url(corner16.png);
-	-fx-rotate: 180;
 	-fx-cursor: se-resize;
 } 

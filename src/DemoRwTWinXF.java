@@ -20,6 +20,7 @@ public class DemoRwTWinXF extends Application {
 
 		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userLayout.fxml"));
 		RuTWinFX.setRoot(root);
+		RuTWinFX.setStylesheet(getClass().getResource("/kotlx/ru/RuTWinFX/res/bgStyleLight.css"));
 
 		stage.setScene(scene);
 		stage.show();

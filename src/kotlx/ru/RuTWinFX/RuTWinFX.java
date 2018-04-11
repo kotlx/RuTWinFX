@@ -11,8 +11,11 @@ package kotlx.ru.RuTWinFX;
 		import javafx.stage.Stage;
 		import javafx.stage.StageStyle;
 
+		import java.net.URL;
+
 public class RuTWinFX {
 	private static final RuTWinFX rutw = new RuTWinFX();
+	private static  Scene scene;
 
 	private static final double SCREEN_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
 	private static final double SCREEN_HEIGHT = Screen.getPrimary().getVisualBounds().getHeight();
@@ -362,5 +365,10 @@ public class RuTWinFX {
 		else MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
 
 		backgroundPane.getChildren().add(userContent);
+	}
+
+	public static void setStylesheet(URL path) {
+		scene.getStylesheets().clear();
+		scene.getStylesheets().add(path.toString());
 	}
 }
