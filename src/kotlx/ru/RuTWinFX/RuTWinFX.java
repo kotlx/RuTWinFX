@@ -1,4 +1,4 @@
-package RuTWinFX.kotlx.ru;
+package kotlx.ru.RuTWinFX;
 
 		import javafx.scene.Group;
 		import javafx.scene.Scene;
@@ -24,7 +24,7 @@ public class RuTWinFX {
 	private static final double STICK_WIDTH = 10d;
 	private static final double BORDER_WIDTH = 8d;
 	private static final double ANGLE_WIDTH = 16d;
-	private static final double DEV = 2.6;
+	private static final double DEV = 2.8;
 
 	private static double initX = 0;
 	private static double initY = 0;
@@ -49,8 +49,8 @@ public class RuTWinFX {
 	public static Scene init(final Stage stage) {
 		final Group screenArea = new Group(rutw.buildFrame());
 		stage.initStyle(StageStyle.TRANSPARENT);
-		Scene scene = new Scene(screenArea, SCREEN_WIDTH, SCREEN_HEIGHT, Color.TRANSPARENT);
-		scene.getStylesheets().add("/RuTWinFX/kotlx/ru/res/bgStyle.css");
+		scene = new Scene(screenArea, SCREEN_WIDTH, SCREEN_HEIGHT, Color.TRANSPARENT);
+		scene.getStylesheets().add("/kotlx/ru/RuTWinFX/res/bgStyle.css");
 		return scene;
 	}
 

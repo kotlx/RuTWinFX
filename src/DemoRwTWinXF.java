@@ -1,4 +1,4 @@
-import RuTWinFX.kotlx.ru.RuTWinFX;
+import kotlx.ru.RuTWinFX.RuTWinFX;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
