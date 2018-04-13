@@ -1,5 +1,6 @@
 package kotlx.ru.RuTWinFX;
 
+		import javafx.geometry.Insets;
 		import javafx.scene.Group;
 		import javafx.scene.Scene;
 		import javafx.scene.input.MouseEvent;
@@ -365,6 +366,14 @@ public class RuTWinFX {
 		else MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
 
 		backgroundPane.getChildren().add(userContent);
+	}
+
+	public static <T extends Region> void setSlidePane(final SPMode position, final T userContent) {
+		final SlidePane<T> slidePane = new SlidePane<>(position, userContent);
+		final Insets insets = new Insets(BORDER_WIDTH);
+		SlidePane.setAnchor(position, slidePane, insets);
+
+		backgroundPane.getChildren().add(slidePane);
 	}
 
 	public static void setStylesheet(URL path) {

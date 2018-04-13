@@ -1,0 +1,52 @@
+#idSlidePane {
+	-fx-background-color: rgba(0,0, 0, 0.8);
+}
+
+#idLeftPane {
+	
+}
+
+#idLogoPane {
+	-fx-background-image: url(img/logo.png);
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 16 16;
+	-fx-background-position: center;	
+}
+
+#idRightPane {
+	-fx-alignment: center-right;
+	-fx-spacing: 8;
+}
+
+#userContent {
+	
+}
+
+.controlItem {
+	-fx-background-color: transparent;
+}
+
+.controlItem:hover {
+	-fx-background-color: rgbs(255, 204, 0, 0.3);
+}
+
+#idPaneMinimize {
+	-fx-background-image: url(img/minimizeIcon.png);
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 12 14;
+	-fx-background-position: center;
+}
+
+#idPaneMaximaze{
+	-fx-background-image: url(img/maximizeIcon.png);
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 12 16;
+	-fx-background-position: center;
+}
+
+#idPaneClose {
+	-fx-background-image: url(img/cross.png);
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 12 12;
+	-fx-background-position: center;
+}

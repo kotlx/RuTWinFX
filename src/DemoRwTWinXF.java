@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import kotlx.ru.RuTWinFX.SPMode;
 
 import java.io.IOException;
 
@@ -19,8 +20,11 @@ public class DemoRwTWinXF extends Application {
 		Scene scene = RuTWinFX.init(stage);
 		RuTWinFX.setStylesheet(getClass().getResource("/kotlx/ru/RuTWinFX/res/bgStyleLight.css"));
 
-		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userLayout.fxml"));
+		AnchorPane root = FXMLLoader.load(getClass().getResource("/userDemoLayout/userRoot.fxml"));
 		RuTWinFX.setRoot(root);
+
+		AnchorPane decor = FXMLLoader.load(getClass().getResource("/userDemoLayout/windowDecor.fxml"));
+		RuTWinFX.setSlidePane(SPMode.TOP, decor);
 
 		stage.setScene(scene);
 		stage.show();

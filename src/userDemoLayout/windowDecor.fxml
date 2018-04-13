@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="idSlidePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="300.0" stylesheets="@windowDecor.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox id="idLeftPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane id="idLogoPane" prefHeight="20.0" prefWidth="20.0" styleClass="controlItem" />
+         </children>
+      </HBox>
+      <HBox id="idRightPane" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane id="idPaneMinimize" prefHeight="20.0" prefWidth="20.0" styleClass="controlItem" />
+            <Pane id="idPaneMaximaze" prefHeight="20.0" prefWidth="20.0" styleClass="controlItem" />
+            <Pane id="idPaneClose" prefHeight="20.0" prefWidth="20.0" styleClass="controlItem" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+   </padding>
+</AnchorPane>

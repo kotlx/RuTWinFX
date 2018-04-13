@@ -1,7 +1,4 @@
 #idUserRootAnchorPane {
-	-fx-background-color: skyblue;
+	-fx-background-color: rgba(90, 90, 90, 0.8);
 }
 
-#idStatusBarHBox {
-	-fx-background-color: darkolivegreen;
-}
