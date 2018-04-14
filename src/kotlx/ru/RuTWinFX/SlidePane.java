@@ -10,6 +10,7 @@ package kotlx.ru.RuTWinFX;
  */
 
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -45,6 +46,7 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 			synchronized (slideProcess) {
 				slideProcess.notify();
 			}
+			event.consume();
 		});
 
 		this.setOnMouseExited(event -> {
@@ -52,6 +54,7 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 			synchronized (slideProcess) {
 				slideProcess.notify();
 			}
+			event.consume();
 		});
 
 		this.getChildren().add(userContent);

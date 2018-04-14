@@ -380,4 +380,8 @@ public class RuTWinFX {
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add(path.toString());
 	}
+
+	public static AnchorPane getFrame() {
+		return backgroundPane;
+	}
 }
