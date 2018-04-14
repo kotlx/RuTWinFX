@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import kotlx.ru.RuTWinFX.RuTWinFX;
 
 import java.net.URL;
@@ -37,10 +38,16 @@ public class ControllerDecorPane implements Initializable {
 				frame.setLayoutX(event.getSceneX() + xOffset);
 				frame.setLayoutY(event.getSceneY() + yOffset);
 			}
-			event.consume();
+			System.out.println(event.getTarget());
 		});
 
 		// Закрываем приложение
 		closeBtnPane.setOnMouseClicked(event -> Platform.exit());
+
+		// Свернуть окно
+		minimizePane.setOnMouseClicked(event -> {
+			Stage stage = (Stage) frame.getScene().getWindow();
+			stage.setIconified(true);
+		});
 	}
 }
