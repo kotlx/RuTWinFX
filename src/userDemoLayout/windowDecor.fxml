@@ -5,13 +5,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="idSlidePane" fx:id="decorationPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="20.0" prefWidth="300.0" stylesheets="@windowDecor.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ControllerDecorPane">
+<AnchorPane id="idSlidePane" fx:id="decorationPane" maxHeight="20.0" minHeight="20.0" minWidth="130.0" prefHeight="20.0" prefWidth="300.0" stylesheets="@windowDecor.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ControllerDecorPane">
       <HBox id="idLeftPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Pane id="idLogoPane" prefHeight="20.0" prefWidth="20.0" />
       </HBox>
       <HBox id="idRightPane" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Pane id="idPaneMinimize" fx:id="minimizePane" prefHeight="20.0" prefWidth="20.0" styleClass="controlItem" />
-            <Pane id="idPaneMaximaze" fx:id="maximizePane" prefHeight="20.0" prefWidth="20.0" styleClass="controlItem" />
+            <Pane id="idPaneMaximize" fx:id="maximizePane" prefHeight="20.0" prefWidth="20.0" styleClass="controlItem" />
             <Pane id="idPaneClose" fx:id="closeBtnPane" prefHeight="20.0" prefWidth="20.0" styleClass="controlItem" />
       </HBox>
    <padding>

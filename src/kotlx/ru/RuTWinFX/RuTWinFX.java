@@ -347,23 +347,7 @@ public class RuTWinFX {
 		AnchorPane.setRightAnchor(userContent, BORDER_WIDTH);
 		AnchorPane.setBottomAnchor(userContent, BORDER_WIDTH);
 		AnchorPane.setLeftAnchor(userContent, BORDER_WIDTH);
-
-		if (PREF_WIDTH > userContent.getPrefWidth()) {
-			userContent.setPrefHeight(PREF_WIDTH - 2 * BORDER_WIDTH);
-		}
-		else PREF_WIDTH = userContent.getPrefWidth() + 2 * BORDER_WIDTH;
-
-		if (PREF_HEIGHT > userContent.getMinHeight())
-			userContent.setPrefHeight(PREF_HEIGHT -  2 * PREF_HEIGHT);
-		else PREF_HEIGHT = userContent.getPrefHeight() + 2 * PREF_HEIGHT;
-
-		if (MIN_WIDTH > userContent.getMinWidth())
-			userContent.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
-		else MIN_WIDTH = userContent.getMinWidth() + 2 * BORDER_WIDTH;
-
-		if (MIN_HEIGHT > userContent.getMinHeight())
-			userContent.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
-		else MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
+		setMinMaxProperty(userContent);
 
 		backgroundPane.getChildren().add(userContent);
 	}
@@ -372,6 +356,7 @@ public class RuTWinFX {
 		final SlidePane<T> slidePane = new SlidePane<>(position, userContent);
 		final Insets insets = new Insets(BORDER_WIDTH);
 		SlidePane.setAnchor(position, slidePane, insets);
+		setMinMaxProperty(slidePane);
 
 		backgroundPane.getChildren().add(slidePane);
 	}
@@ -383,5 +368,23 @@ public class RuTWinFX {
 
 	public static AnchorPane getFrame() {
 		return backgroundPane;
+	}
+
+	private static  <T extends Region> void setMinMaxProperty(T node) {
+		if (PREF_WIDTH > node.getPrefWidth())
+			node.setPrefHeight(PREF_WIDTH - 2 * BORDER_WIDTH);
+		else PREF_WIDTH = node.getPrefWidth() + 2 * BORDER_WIDTH;
+
+		if (PREF_HEIGHT > node.getMinHeight())
+			node.setPrefHeight(PREF_HEIGHT -  2 * PREF_HEIGHT);
+		else PREF_HEIGHT = node.getPrefHeight() + 2 * PREF_HEIGHT;
+
+		if (MIN_WIDTH > node.getMinWidth())
+			node.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
+		else MIN_WIDTH = node.getMinWidth() + 2 * BORDER_WIDTH;
+
+		if (MIN_HEIGHT > node.getMinHeight())
+			node.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
+		else MIN_HEIGHT = node.getMinHeight() + 2 * BORDER_WIDTH;
 	}
 }

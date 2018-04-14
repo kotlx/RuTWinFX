@@ -20,7 +20,7 @@ public class ControllerDecorPane implements Initializable {
 
 	@FXML private Pane decorationPane;
 
-	AnchorPane frame = RuTWinFX.getFrame();
+	private final AnchorPane frame = RuTWinFX.getFrame();
 	private double xOffset = 0;
 	private double yOffset = 0;
 

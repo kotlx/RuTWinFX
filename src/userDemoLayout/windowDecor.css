@@ -27,7 +27,7 @@
 }
 
 .controlItem:hover {
-	-fx-background-color: rgbs(255, 204, 0, 0.3);
+	-fx-background-color: rgba(255, 204, 0, 0.3);
 }
 
 #idPaneMinimize {
@@ -37,7 +37,7 @@
 	-fx-background-position: center;
 }
 
-#idPaneMaximaze{
+#idPaneMaximize{
 	-fx-background-image: url(img/maximizeIcon.png);
 	-fx-background-repeat: no-repeat;
 	-fx-background-size: 12 16;

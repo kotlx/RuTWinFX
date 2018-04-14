@@ -10,7 +10,6 @@ package kotlx.ru.RuTWinFX;
  */
 
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -33,6 +32,7 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		if (userContent == null) throw new NullPointerException();
 		userContent.setOpacity(0);
 		this.userContent = userContent;
+		inheritedProperty();
 
 		SlidePane.setAnchor(position, userContent, new Insets(0));
 
@@ -252,5 +252,14 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		AnchorPane.setLeftAnchor(node, insets.getLeft());
 		AnchorPane.setTopAnchor(node, insets.getTop());
 		AnchorPane.setBottomAnchor(node, insets.getBottom());
+	}
+
+	private void inheritedProperty() {
+		this.setMinWidth(userContent.getMinWidth());
+		this.setMinHeight(userContent.getMinHeight());
+		this.setPrefWidth(userContent.getPrefWidth());
+		this.setPrefHeight(userContent.getPrefHeight());
+		this.setMaxWidth(userContent.getMaxWidth());
+		this.setMaxHeight(userContent.getMaxHeight());
 	}
 }
