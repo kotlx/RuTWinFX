@@ -21,10 +21,10 @@ public class RuTWinFX {
 	private static final double SCREEN_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
 	private static final double SCREEN_HEIGHT = Screen.getPrimary().getVisualBounds().getHeight();
 
-	private static double MIN_WIDTH = 100d;
-	private static double MIN_HEIGHT = 100d;
-	private static double PREF_WIDTH = 400d;
-	private static double PREF_HEIGHT = 300d;
+	private static double MIN_WIDTH = 50d;
+	private static double MIN_HEIGHT = 50d;
+	private static double PREF_WIDTH = 100d;
+	private static double PREF_HEIGHT = 100d;
 	private static final double STICK_WIDTH = 10d;
 	private static final double BORDER_WIDTH = 8d;
 	private static final double ANGLE_WIDTH = 16d;
@@ -147,6 +147,7 @@ public class RuTWinFX {
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 				final double deltaX = event.getScreenX() - initX;
 				final double newWidth = windowWidth - windowX - deltaX;
+
 				// Проверяем левый край не меньше ли минимального размера и не меньше ли размеров экрана
 				if ((newWidth >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
 					backgroundPane.setPrefWidth(newWidth);
@@ -154,7 +155,7 @@ public class RuTWinFX {
 					// Если край меньше размеров экрана то устанавливаем его рвным 0 с учетом ширины бордюра
 				} else if (event.getScreenX() <= STICK_WIDTH) {
 					backgroundPane.setLayoutX(-BORDER_WIDTH + INDENT);
-					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH - INDENT);
 				}
 			}
 			event.consume();
@@ -175,7 +176,7 @@ public class RuTWinFX {
 					backgroundPane.setPrefHeight(newHeight);
 				} else if (event.getScreenY()<= STICK_WIDTH) {
 					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
-					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH - INDENT);
 				}
 			}
 			event.consume();
@@ -262,7 +263,7 @@ public class RuTWinFX {
 					backgroundPane.setPrefWidth(newWidth);
 				} else if (event.getScreenX() <= STICK_WIDTH) {
 					backgroundPane.setLayoutX(-BORDER_WIDTH + INDENT);
-					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH - INDENT);
 				}
 				// Низ
 				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
@@ -294,7 +295,7 @@ public class RuTWinFX {
 					backgroundPane.setPrefHeight(newHeight);
 				} else if (event.getScreenY()<= STICK_WIDTH) {
 					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
-					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH - INDENT);
 				}
 				// Лева
 				if ((newWidth >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
@@ -302,7 +303,7 @@ public class RuTWinFX {
 					backgroundPane.setPrefWidth(newWidth);
 				} else if (event.getScreenX() <= STICK_WIDTH) {
 					backgroundPane.setLayoutX(-BORDER_WIDTH + INDENT);
-					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH - INDENT);
 				}
 			}
 			event.consume();
@@ -328,7 +329,7 @@ public class RuTWinFX {
 					backgroundPane.setPrefHeight(newHeight);
 				} else if (event.getScreenY()<= STICK_WIDTH) {
 					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
-					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH - INDENT);
 				}
 				// Право
 				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
@@ -347,16 +348,50 @@ public class RuTWinFX {
 		AnchorPane.setRightAnchor(userContent, BORDER_WIDTH);
 		AnchorPane.setBottomAnchor(userContent, BORDER_WIDTH);
 		AnchorPane.setLeftAnchor(userContent, BORDER_WIDTH);
-		setMinMaxProperty(userContent);
+
+		backgroundPane.setPrefWidth(PREF_WIDTH = userContent.getPrefWidth() + 2 * BORDER_WIDTH);
+		backgroundPane.setPrefHeight(PREF_HEIGHT = userContent.getPrefHeight() + 2 * BORDER_WIDTH);
+
+		if (MIN_WIDTH < userContent.getMinWidth()) MIN_WIDTH = userContent.getMinWidth() + 2 * BORDER_WIDTH;
+		else userContent.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
+
+		if (MIN_HEIGHT < userContent.getMinHeight()) MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
+		else userContent.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
+
+		backgroundPane.setMinWidth(MIN_WIDTH);
+		backgroundPane.setMinHeight(MIN_HEIGHT);
 
 		backgroundPane.getChildren().add(userContent);
 	}
 
 	public static <T extends Region> void setSlidePane(final SPMode position, final T userContent) {
 		final SlidePane<T> slidePane = new SlidePane<>(position, userContent);
+		slidePane.setActivationWidth(15);
 		final Insets insets = new Insets(BORDER_WIDTH);
 		SlidePane.setAnchor(position, slidePane, insets);
-		setMinMaxProperty(slidePane);
+
+		switch (position) {
+			case TOP:
+				if (MIN_WIDTH < userContent.getMinWidth()) MIN_WIDTH = userContent.getMinWidth() + 2 * BORDER_WIDTH;
+				else userContent.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
+				backgroundPane.setMinWidth(MIN_WIDTH);
+				break;
+			case RIGHT:
+				if (MIN_HEIGHT < userContent.getMinHeight()) MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
+				else userContent.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
+				backgroundPane.setMinHeight(MIN_HEIGHT);
+				break;
+			case LEFT:
+				if (MIN_HEIGHT < userContent.getMinHeight()) MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
+				else userContent.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
+				backgroundPane.setMinHeight(MIN_HEIGHT);
+				break;
+			case BOTTOM:
+				if (MIN_WIDTH < userContent.getMinWidth()) MIN_WIDTH = userContent.getMinWidth() + 2 * BORDER_WIDTH;
+				else userContent.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
+				backgroundPane.setMinWidth(MIN_WIDTH);
+				break;
+		}
 
 		backgroundPane.getChildren().add(slidePane);
 	}
@@ -368,23 +403,5 @@ public class RuTWinFX {
 
 	public static AnchorPane getFrame() {
 		return backgroundPane;
-	}
-
-	private static  <T extends Region> void setMinMaxProperty(T node) {
-		if (PREF_WIDTH > node.getPrefWidth())
-			node.setPrefHeight(PREF_WIDTH - 2 * BORDER_WIDTH);
-		else PREF_WIDTH = node.getPrefWidth() + 2 * BORDER_WIDTH;
-
-		if (PREF_HEIGHT > node.getMinHeight())
-			node.setPrefHeight(PREF_HEIGHT -  2 * PREF_HEIGHT);
-		else PREF_HEIGHT = node.getPrefHeight() + 2 * PREF_HEIGHT;
-
-		if (MIN_WIDTH > node.getMinWidth())
-			node.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
-		else MIN_WIDTH = node.getMinWidth() + 2 * BORDER_WIDTH;
-
-		if (MIN_HEIGHT > node.getMinHeight())
-			node.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
-		else MIN_HEIGHT = node.getMinHeight() + 2 * BORDER_WIDTH;
 	}
 }

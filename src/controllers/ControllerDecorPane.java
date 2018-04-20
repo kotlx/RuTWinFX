@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import kotlx.ru.RuTWinFX.RuTWinFX;
+import kotlx.ru.RuTWinFX.SlidePane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,6 +23,7 @@ public class ControllerDecorPane implements Initializable {
 	@FXML private Pane decorationPane;
 
 	private final AnchorPane frame = RuTWinFX.getFrame();
+	SlidePane slidePane = (SlidePane) frame.lookup("SlidePane");
 	private double xOffset = 0;
 	private double yOffset = 0;
 
@@ -38,7 +40,6 @@ public class ControllerDecorPane implements Initializable {
 				frame.setLayoutX(event.getSceneX() + xOffset);
 				frame.setLayoutY(event.getSceneY() + yOffset);
 			}
-			System.out.println(event.getTarget());
 		});
 
 		// Закрываем приложение

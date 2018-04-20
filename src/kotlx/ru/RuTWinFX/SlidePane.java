@@ -6,7 +6,7 @@ package kotlx.ru.RuTWinFX;
  * userContent должен содержать JavaFX граф, который будет выведен на панель.
  * ACTIVATION_WIDTH - ширина области активации панели.
  * USER_CONTENT_WIDTH - заданная пользователем ширина выдвигающейся панели.
- * TIME_OF_SLIDING - время в миллисекундах в течениикоторого панель полностью выдвигается.
+ * TIME_OF_SLIDING - время в миллисекундах в течении которого панель полностью выдвигается.
  */
 
 import javafx.geometry.Insets;
@@ -16,8 +16,9 @@ import javafx.scene.layout.Region;
 
 public class SlidePane<E extends Region> extends AnchorPane implements Runnable {
 
-	private double ACTIVATION_WIDTH = 20;
-	private double USER_CONTENT_WIDTH = 30;
+	// Параметры по умолчаию
+	private double ACTIVATION_WIDTH = 0;
+	private double USER_CONTENT_WIDTH = 0;
 	private double TIME_OF_SLIDING = 500;
 
 	private Scene scene;
@@ -28,15 +29,13 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 
 	public SlidePane(SPMode position, E userContent) {
 		super();
+
 		spm = position;
 		if (userContent == null) throw new NullPointerException();
-		userContent.setOpacity(0);
 		this.userContent = userContent;
-		inheritedProperty();
 
 		SlidePane.setAnchor(position, userContent, new Insets(0));
-
-		initMode(position);
+		initMode(spm);
 
 		slideProcess = new Thread(this, "SlideProcess");
 		slideProcess.start();
@@ -82,7 +81,7 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 
 			// Выдвигаем панель
 			while (ps == ProcessState.SLIDING_OUT) {
-				if ((spm == SPMode.TOP) | (spm == SPMode.BOTTOM)){
+				if ((spm == SPMode.TOP) | (spm == SPMode.BOTTOM)) {
 					if (!(currentWidth + step >= USER_CONTENT_WIDTH)) {
 						userContent.setPrefHeight(currentWidth += step);
 						userContent.setOpacity(currentOpacity += opacityStep);
@@ -96,8 +95,7 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 						userContent.setOpacity(currentOpacity = 1);
 						ps = ProcessState.WAIT;
 					}
-				}
-				else {
+				} else {
 					if (!(currentWidth + step >= USER_CONTENT_WIDTH)) {
 						userContent.setPrefWidth(currentWidth += step);
 						userContent.setOpacity(currentOpacity += opacityStep);
@@ -130,8 +128,7 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 						userContent.setOpacity(currentOpacity = 0);
 						ps = ProcessState.WAIT;
 					}
-				}
-				else {
+				} else {
 					if (!(currentWidth - step <= 0)) {
 						userContent.setPrefWidth(currentWidth -= step);
 						userContent.setOpacity(currentOpacity -= opacityStep);
@@ -163,29 +160,53 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 
 	private enum ProcessState {SLIDING_OUT, SLIDING_OFF, WAIT, STOP}
 
-	private void initMode(SPMode position) {
-		switch (position) {
-			case TOP :
+//	public void setSlidingOut() {
+//		ps = ProcessState.SLIDING_OUT;
+//	}
+//
+//	public void  setSlidingOff() {
+//		ps = ProcessState.SLIDING_OFF;
+//	}
+
+	private void initMode(SPMode mode) {
+		switch (mode) {
+			case TOP:
+				// Если пользователь явно не задал ACTIVATION_WIDTH то берем его из userContent
+				if (ACTIVATION_WIDTH == 0) ACTIVATION_WIDTH = userContent.getPrefHeight();
 				this.setPrefHeight(ACTIVATION_WIDTH);
+				// Передаем размеры userContent в slidePane
 				setContentWidth(userContent.getPrefHeight());
+				this.setPrefWidth(userContent.getPrefWidth());
+				this.setMinWidth(userContent.getMinWidth());
+				// Началное значение  - панель закрыта
 				userContent.setPrefHeight(0);
 				break;
 			case RIGHT:
+				if (ACTIVATION_WIDTH == 0) ACTIVATION_WIDTH = userContent.getPrefWidth();
 				this.setPrefWidth(ACTIVATION_WIDTH);
 				setContentWidth(userContent.getPrefWidth());
+				this.setPrefHeight(userContent.getPrefHeight());
+				this.setMinHeight(userContent.getMinHeight());
 				userContent.setPrefWidth(0);
 				break;
 			case BOTTOM:
+				if (ACTIVATION_WIDTH == 0) ACTIVATION_WIDTH = userContent.getPrefHeight();
 				this.setPrefHeight(ACTIVATION_WIDTH);
 				setContentWidth(userContent.getPrefHeight());
+				this.setPrefWidth(userContent.getPrefWidth());
+				this.setMinWidth(userContent.getMinWidth());
 				userContent.setPrefHeight(0);
 				break;
 			case LEFT:
+				if (ACTIVATION_WIDTH == 0) ACTIVATION_WIDTH = userContent.getPrefWidth();
 				this.setPrefWidth(ACTIVATION_WIDTH);
 				setContentWidth(userContent.getPrefWidth());
+				this.setPrefHeight(userContent.getPrefHeight());
+				this.setMinHeight(userContent.getMinHeight());
 				userContent.setPrefWidth(0);
 				break;
 		}
+		userContent.setOpacity(0);
 	}
 
 	public double getContentWith() {
@@ -193,7 +214,8 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 	}
 
 	public void setContentWidth(double width) {
-		if (width <= 0) System.err.println("Warning!: " + this + "  width value is too small. USER_CONTENT_WIDTH = " + width);
+		if (width <= 0)
+			System.err.println("Warning!: " + this + "  width value is too small. USER_CONTENT_WIDTH = " + width);
 		USER_CONTENT_WIDTH = width;
 	}
 
@@ -202,7 +224,10 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 	}
 
 	public void setActivationWidth(double activationWidth) {
-		this.ACTIVATION_WIDTH = activationWidth;
+		if ((spm == SPMode.TOP) || ( spm == SPMode.BOTTOM))
+			this.setPrefHeight(this.ACTIVATION_WIDTH = activationWidth);
+		if ((spm == SPMode.RIGHT) || ( spm == SPMode.LEFT))
+			this.setPrefWidth(this.ACTIVATION_WIDTH = activationWidth);
 	}
 
 	public double getSlidingTime() {
@@ -254,12 +279,4 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		AnchorPane.setBottomAnchor(node, insets.getBottom());
 	}
 
-	private void inheritedProperty() {
-		this.setMinWidth(userContent.getMinWidth());
-		this.setMinHeight(userContent.getMinHeight());
-		this.setPrefWidth(userContent.getPrefWidth());
-		this.setPrefHeight(userContent.getPrefHeight());
-		this.setMaxWidth(userContent.getMaxWidth());
-		this.setMaxHeight(userContent.getMaxHeight());
-	}
 }
