@@ -1,6 +1,5 @@
 package kotlx.ru.RuTWinFX;
 
-		import javafx.event.EventHandler;
 		import javafx.geometry.Insets;
 		import javafx.scene.Group;
 		import javafx.scene.Scene;
@@ -12,7 +11,6 @@ package kotlx.ru.RuTWinFX;
 		import javafx.stage.Screen;
 		import javafx.stage.Stage;
 		import javafx.stage.StageStyle;
-		import javafx.stage.WindowEvent;
 
 		import java.net.URL;
 
@@ -366,34 +364,36 @@ public class RuTWinFX {
 		backgroundPane.getChildren().add(userContent);
 	}
 
-	public static <T extends Region> void setSlidePane(final SPMode position, final T userContent) {
+	public static <T extends Region> void setSlidePane(final SladePanePosition position, final T userContent) {
 		final SlidePane<T> slidePane = new SlidePane<>(position, userContent);
-		slidePane.setActivationWidth(15);
+		slidePane.setActivationWidth(10);
 		final Insets insets = new Insets(BORDER_WIDTH);
 		SlidePane.setAnchor(position, slidePane, insets);
 
 		switch (position) {
 			case TOP:
-				if (MIN_WIDTH < userContent.getMinWidth()) MIN_WIDTH = userContent.getMinWidth() + 2 * BORDER_WIDTH;
-				else userContent.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
+				if (MIN_WIDTH < slidePane.getMinWidth()) MIN_WIDTH = slidePane.getMinWidth() + 2 * BORDER_WIDTH;
+				else slidePane.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
 				backgroundPane.setMinWidth(MIN_WIDTH);
 				break;
 			case RIGHT:
-				if (MIN_HEIGHT < userContent.getMinHeight()) MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
-				else userContent.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
+				if (MIN_HEIGHT < slidePane.getMinHeight()) MIN_HEIGHT = slidePane.getMinHeight() + 2 * BORDER_WIDTH;
+				else slidePane.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
 				backgroundPane.setMinHeight(MIN_HEIGHT);
 				break;
 			case LEFT:
-				if (MIN_HEIGHT < userContent.getMinHeight()) MIN_HEIGHT = userContent.getMinHeight() + 2 * BORDER_WIDTH;
-				else userContent.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
+				if (MIN_HEIGHT < slidePane.getMinHeight()) MIN_HEIGHT = slidePane.getMinHeight() + 2 * BORDER_WIDTH;
+				else slidePane.setMinHeight(MIN_HEIGHT - 2 * BORDER_WIDTH);
 				backgroundPane.setMinHeight(MIN_HEIGHT);
 				break;
 			case BOTTOM:
-				if (MIN_WIDTH < userContent.getMinWidth()) MIN_WIDTH = userContent.getMinWidth() + 2 * BORDER_WIDTH;
-				else userContent.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
+				if (MIN_WIDTH < slidePane.getMinWidth()) MIN_WIDTH = slidePane.getMinWidth() + 2 * BORDER_WIDTH;
+				else slidePane.setMinWidth(MIN_WIDTH - 2 * BORDER_WIDTH);
 				backgroundPane.setMinWidth(MIN_WIDTH);
 				break;
 		}
+
+		backgroundPane.getChildren().add(slidePane);
 	}
 
 	public static void setStylesheet(URL path) {

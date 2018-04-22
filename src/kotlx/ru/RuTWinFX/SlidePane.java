@@ -22,13 +22,17 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 	private double TIME_OF_SLIDING = 500;
 
 	private Scene scene;
-	private volatile ProcessState ps = ProcessState.WAIT;
-	private final SPMode spm;
+	private final SladePanePosition spm;
 	private final E userContent;
-	private final Thread slideProcess;
+	private final Thread slideThread;
+	private final SlideThreadMonitor monitor;
 
-	public SlidePane(SPMode position, E userContent) {
+	public SlidePane(SladePanePosition position, E userContent) {
 		super();
+
+		//***debug
+//		this.setStyle("-fx-background-color: gold;");
+		//***
 
 		spm = position;
 		if (userContent == null) throw new NullPointerException();
@@ -37,22 +41,25 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		SlidePane.setAnchor(position, userContent, new Insets(0));
 		initMode(spm);
 
-		slideProcess = new Thread(this, "SlideProcess");
-		slideProcess.start();
+		slideThread = new Thread(this, "SlideThread");
+		monitor = new SlideThreadMonitor(slideThread);
+		slideThread.start();
 
 		this.setOnMouseEntered(event -> {
-			ps = ProcessState.SLIDING_OUT;
-			synchronized (slideProcess) {
-				slideProcess.notify();
-			}
+//			//***
+//			System.out.println("this.getPrefHeight() = " + this.getPrefHeight());
+//			System.out.println("this.getHeight() = " + this.getHeight());
+//			//***
+			monitor.setSlidingOut();
 			event.consume();
 		});
 
 		this.setOnMouseExited(event -> {
-			ps = ProcessState.SLIDING_OFF;
-			synchronized (slideProcess) {
-				slideProcess.notify();
-			}
+//			//***
+//			System.out.println("this.getPrefHeight() = " + this.getPrefHeight());
+//			System.out.println("this.getHeight() = " + this.getHeight());
+//			//***
+			monitor.setSlidingOff();
 			event.consume();
 		});
 
@@ -66,109 +73,77 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		double currentWidth = 0;
 		double currentOpacity = 0;
 
-		while (!(ps == ProcessState.STOP)) {
+		while (!(monitor.getState() == SlideThreadState.STOP)) {
 			// Получаем ссылку на Scene, если ещё не получена, чтобы отслеживать события окна
 			if ((scene == null) && (this.getScene() != null) && (this.getScene().getWindow() != null)) {
 				scene = this.getScene();
+				System.out.println("Run: get scene");
 				// Если окно закрывается, то завершаем процесс
 				scene.getWindow().setOnCloseRequest(event -> {
-					ps = ProcessState.STOP;
-					synchronized (slideProcess) {
-						slideProcess.notify();
-					}
+					System.out.println("Run: stop");
+					monitor.setThreadStop();
 				});
 			}
 
 			// Выдвигаем панель
-			while (ps == ProcessState.SLIDING_OUT) {
-				if ((spm == SPMode.TOP) | (spm == SPMode.BOTTOM)) {
+			while (monitor.getState() == SlideThreadState.SLIDING_OUT) {
+				if ((spm == SladePanePosition.TOP) | (spm == SladePanePosition.BOTTOM)) {
 					if (!(currentWidth + step >= USER_CONTENT_WIDTH)) {
 						userContent.setPrefHeight(currentWidth += step);
 						userContent.setOpacity(currentOpacity += opacityStep);
-						try {
-							Thread.sleep(20);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						monitor.sleep(20);
 					} else {
 						userContent.setPrefHeight(currentWidth = USER_CONTENT_WIDTH);
 						userContent.setOpacity(currentOpacity = 1);
-						ps = ProcessState.WAIT;
+						monitor.setThreadWait();
 					}
 				} else {
 					if (!(currentWidth + step >= USER_CONTENT_WIDTH)) {
 						userContent.setPrefWidth(currentWidth += step);
 						userContent.setOpacity(currentOpacity += opacityStep);
-						try {
-							Thread.sleep(20);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						monitor.sleep(20);
 					} else {
 						userContent.setPrefWidth(currentWidth = USER_CONTENT_WIDTH);
 						userContent.setOpacity(currentOpacity = 1);
-						ps = ProcessState.WAIT;
+						monitor.setThreadWait();
 					}
 				}
 			}
 
 			// Задвигаем панель
-			while (ps == ProcessState.SLIDING_OFF) {
-				if ((spm == SPMode.TOP) | (spm == SPMode.BOTTOM)) {
+			while (monitor.getState() == SlideThreadState.SLIDING_OFF) {
+				if ((spm == SladePanePosition.TOP) | (spm == SladePanePosition.BOTTOM)) {
 					if (!(currentWidth - step <= 0)) {
 						userContent.setPrefHeight(currentWidth -= step);
 						userContent.setOpacity(currentOpacity -= opacityStep);
-						try {
-							Thread.sleep(20);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						monitor.sleep(20);
 					} else {
 						userContent.setPrefHeight(currentWidth = 0);
 						userContent.setOpacity(currentOpacity = 0);
-						ps = ProcessState.WAIT;
+						monitor.setThreadWait();
 					}
 				} else {
 					if (!(currentWidth - step <= 0)) {
 						userContent.setPrefWidth(currentWidth -= step);
 						userContent.setOpacity(currentOpacity -= opacityStep);
-						try {
-							Thread.sleep(20);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						monitor.sleep(20);
 					} else {
 						userContent.setPrefWidth(currentWidth = 0);
 						userContent.setOpacity(currentOpacity = 0);
-						ps = ProcessState.WAIT;
+						monitor.setThreadWait();
 					}
 				}
 			}
 
 			// Ждем если ни чего не происходит
-			if (ps == ProcessState.WAIT) {
-				synchronized (slideProcess) {
-					try {
-						slideProcess.wait();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
+			if (monitor.getState() == SlideThreadState.WAIT) {
+				monitor.sleep();
 			}
 		}
+		System.out.println("STOP");
 	}
 
-	private enum ProcessState {SLIDING_OUT, SLIDING_OFF, WAIT, STOP}
-
-//	public void setSlidingOut() {
-//		ps = ProcessState.SLIDING_OUT;
-//	}
-//
-//	public void  setSlidingOff() {
-//		ps = ProcessState.SLIDING_OFF;
-//	}
-
-	private void initMode(SPMode mode) {
+	private void initMode(SladePanePosition mode) {
 		switch (mode) {
 			case TOP:
 				// Если пользователь явно не задал ACTIVATION_WIDTH то берем его из userContent
@@ -224,9 +199,9 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 	}
 
 	public void setActivationWidth(double activationWidth) {
-		if ((spm == SPMode.TOP) || ( spm == SPMode.BOTTOM))
+		if ((spm == SladePanePosition.TOP) || ( spm == SladePanePosition.BOTTOM))
 			this.setPrefHeight(this.ACTIVATION_WIDTH = activationWidth);
-		if ((spm == SPMode.RIGHT) || ( spm == SPMode.LEFT))
+		if ((spm == SladePanePosition.RIGHT) || ( spm == SladePanePosition.LEFT))
 			this.setPrefWidth(this.ACTIVATION_WIDTH = activationWidth);
 	}
 
@@ -238,7 +213,7 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		TIME_OF_SLIDING = milliseconds;
 	}
 
-	public static <T extends Region> void setAnchor(SPMode position, T node, Insets insets) {
+	public static <T extends Region> void setAnchor(SladePanePosition position, T node, Insets insets) {
 		switch (position) {
 			case TOP:
 				SlidePane.setTop(node, insets);
@@ -279,4 +254,11 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		AnchorPane.setBottomAnchor(node, insets.getBottom());
 	}
 
+	public void setStop() {
+		monitor.setThreadStop();
+	}
+
+	public void setSlideOff() {
+		monitor.setSlidingOff();
+	}
 }

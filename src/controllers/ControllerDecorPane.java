@@ -23,7 +23,7 @@ public class ControllerDecorPane implements Initializable {
 	@FXML private Pane decorationPane;
 
 	private final AnchorPane frame = RuTWinFX.getFrame();
-	SlidePane slidePane = (SlidePane) frame.lookup("SlidePane");
+	private SlidePane slidePane;
 	private double xOffset = 0;
 	private double yOffset = 0;
 
@@ -43,11 +43,17 @@ public class ControllerDecorPane implements Initializable {
 		});
 
 		// Закрываем приложение
-		closeBtnPane.setOnMouseClicked(event -> Platform.exit());
+		closeBtnPane.setOnMouseClicked(event -> {
+			if (slidePane == null) slidePane = (SlidePane) frame.lookup("SlidePane");
+			slidePane.setStop();
+			Platform.exit();
+		});
 
 		// Свернуть окно
 		minimizePane.setOnMouseClicked(event -> {
+			if (slidePane == null) slidePane = (SlidePane) frame.lookup("SlidePane");
 			Stage stage = (Stage) frame.getScene().getWindow();
+			slidePane.setSlideOff();
 			stage.setIconified(true);
 		});
 	}
