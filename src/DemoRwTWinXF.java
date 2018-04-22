@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import kotlx.ru.RuTWinFX.SPMode;
+import kotlx.ru.RuTWinFX.SlidePane;
 
 import java.io.IOException;
 
@@ -28,5 +29,12 @@ public class DemoRwTWinXF extends Application {
 
 		stage.setScene(scene);
 		stage.show();
+
+		//*** debug msg
+		SlidePane sp = (SlidePane) decor.getParent();
+		System.out.println("getPrefHeight() = " + sp.getPrefHeight() + "  getPrefWidth() = " + sp.getPrefWidth());
+		System.out.println("getMinHeight() = " + sp.getMinHeight() + "  getMinWidth() = " + sp.getMinWidth());
+
+		//** end debug msg
 	}
 }

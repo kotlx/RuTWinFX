@@ -1,5 +1,6 @@
 package kotlx.ru.RuTWinFX;
 
+		import javafx.event.EventHandler;
 		import javafx.geometry.Insets;
 		import javafx.scene.Group;
 		import javafx.scene.Scene;
@@ -11,6 +12,7 @@ package kotlx.ru.RuTWinFX;
 		import javafx.stage.Screen;
 		import javafx.stage.Stage;
 		import javafx.stage.StageStyle;
+		import javafx.stage.WindowEvent;
 
 		import java.net.URL;
 
@@ -392,8 +394,6 @@ public class RuTWinFX {
 				backgroundPane.setMinWidth(MIN_WIDTH);
 				break;
 		}
-
-		backgroundPane.getChildren().add(slidePane);
 	}
 
 	public static void setStylesheet(URL path) {
