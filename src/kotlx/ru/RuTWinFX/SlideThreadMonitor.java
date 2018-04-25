@@ -1,5 +1,10 @@
 package kotlx.ru.RuTWinFX;
 
+/*
+ * Управлятор потоком SlidePane
+ */
+
+
 public class SlideThreadMonitor {
 	private Thread thread;
 	private SlideThreadState state;

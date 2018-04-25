@@ -30,10 +30,6 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 	public SlidePane(SladePanePosition position, E userContent) {
 		super();
 
-		//***debug
-//		this.setStyle("-fx-background-color: gold;");
-		//***
-
 		spm = position;
 		if (userContent == null) throw new NullPointerException();
 		this.userContent = userContent;
@@ -46,19 +42,11 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		slideThread.start();
 
 		this.setOnMouseEntered(event -> {
-//			//***
-//			System.out.println("this.getPrefHeight() = " + this.getPrefHeight());
-//			System.out.println("this.getHeight() = " + this.getHeight());
-//			//***
 			monitor.setSlidingOut();
 			event.consume();
 		});
 
 		this.setOnMouseExited(event -> {
-//			//***
-//			System.out.println("this.getPrefHeight() = " + this.getPrefHeight());
-//			System.out.println("this.getHeight() = " + this.getHeight());
-//			//***
 			monitor.setSlidingOff();
 			event.consume();
 		});
@@ -75,12 +63,15 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 
 		while (!(monitor.getState() == SlideThreadState.STOP)) {
 			// Получаем ссылку на Scene, если ещё не получена, чтобы отслеживать события окна
+			//TODO инициализацию Scene нужгно заменить ...
 			if ((scene == null) && (this.getScene() != null) && (this.getScene().getWindow() != null)) {
 				scene = this.getScene();
+				//***dbg msg
 				System.out.println("Run: get scene");
 				// Если окно закрывается, то завершаем процесс
 				scene.getWindow().setOnCloseRequest(event -> {
-					System.out.println("Run: stop");
+					//***dbg msg
+					System.out.println("setOnCloseRequest: stop");
 					monitor.setThreadStop();
 				});
 			}
@@ -140,6 +131,7 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 				monitor.sleep();
 			}
 		}
+		//***dbg msg
 		System.out.println("STOP");
 	}
 
@@ -261,4 +253,10 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 	public void setSlideOff() {
 		monitor.setSlidingOff();
 	}
+
+	public void setSlideOut() {
+		monitor.setSlidingOut();
+	}
+
+
 }
