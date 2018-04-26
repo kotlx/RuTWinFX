@@ -34,6 +34,8 @@ public class ControllerDecorPane implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		//TODO Обработка нажатия maximizePane( развернуь окно в максимум)
+
 		// Перемещение окна если нажать на декорационной панели
 		decorationPane.addEventFilter(MouseEvent.ANY, event -> {
 

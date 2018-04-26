@@ -3,7 +3,7 @@ package kotlx.ru.RuTWinFX;
 /*
  * Выдвигающаяся панель, активируется при наведении курсора на определенную область окна.
  * Режимы SPMode TOP, LEFT, BOTTOM, и RIGHT закрепляют панель к соотвествующему краю окна.
- * userContent должен содержать JavaFX граф, который будет выведен на панель.
+ * userContent должен содержать JavaFX граф, который будет выведен на эту панель.
  * ACTIVATION_WIDTH - ширина области активации панели.
  * USER_CONTENT_WIDTH - заданная пользователем ширина выдвигающейся панели.
  * TIME_OF_SLIDING - время в миллисекундах в течении которого панель полностью выдвигается.
@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 
 public class SlidePane<E extends Region> extends AnchorPane implements Runnable {
 
@@ -21,7 +22,6 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 	private double USER_CONTENT_WIDTH = 0;
 	private double TIME_OF_SLIDING = 500;
 
-	private Scene scene;
 	private final SladePanePosition spm;
 	private final E userContent;
 	private final Thread slideThread;
@@ -40,6 +40,15 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		slideThread = new Thread(this, "SlideThread");
 		monitor = new SlideThreadMonitor(slideThread);
 		slideThread.start();
+
+		// Когда этот узел станет потомком какой-либо сцены
+		this.sceneProperty().addListener((( observable, oldValue, scene) ->
+			// Когда этой сцене назначат stage то регистрируем слушателя событий окна
+			scene.windowProperty().addListener(((observable1, oldValue1, window) ->
+				// Если окно закрывается, то завершаем процесс
+				window.setOnCloseRequest(event -> monitor.setThreadStop())
+			))
+		));
 
 		this.setOnMouseEntered(event -> {
 			monitor.setSlidingOut();
@@ -62,20 +71,6 @@ public class SlidePane<E extends Region> extends AnchorPane implements Runnable 
 		double currentOpacity = 0;
 
 		while (!(monitor.getState() == SlideThreadState.STOP)) {
-			// Получаем ссылку на Scene, если ещё не получена, чтобы отслеживать события окна
-			//TODO инициализацию Scene нужгно заменить ...
-			if ((scene == null) && (this.getScene() != null) && (this.getScene().getWindow() != null)) {
-				scene = this.getScene();
-				//***dbg msg
-				System.out.println("Run: get scene");
-				// Если окно закрывается, то завершаем процесс
-				scene.getWindow().setOnCloseRequest(event -> {
-					//***dbg msg
-					System.out.println("setOnCloseRequest: stop");
-					monitor.setThreadStop();
-				});
-			}
-
 			// Выдвигаем панель
 			while (monitor.getState() == SlideThreadState.SLIDING_OUT) {
 				if ((spm == SladePanePosition.TOP) | (spm == SladePanePosition.BOTTOM)) {
