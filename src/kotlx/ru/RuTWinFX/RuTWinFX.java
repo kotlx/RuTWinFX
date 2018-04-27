@@ -18,8 +18,8 @@ public class RuTWinFX {
 	private static final RuTWinFX rutw = new RuTWinFX();
 	private static  Scene scene;
 
-	private static final double SCREEN_WIDTH = Screen.getPrimary().getVisualBounds().getWidth();
-	private static final double SCREEN_HEIGHT = Screen.getPrimary().getVisualBounds().getHeight();
+	private static final double SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth();
+	private static final double SCREEN_HEIGHT = Screen.getPrimary().getBounds().getHeight();
 
 	private static double MIN_WIDTH = 50d;
 	private static double MIN_HEIGHT = 50d;
@@ -53,6 +53,10 @@ public class RuTWinFX {
 	public static Scene init(final Stage stage) {
 		final Group screenArea = new Group(rutw.buildFrame());
 		stage.initStyle(StageStyle.TRANSPARENT);
+		//*** на всякий случай:
+		stage.setX(0.0);
+		stage.setY(0.0);
+		//***
 		scene = new Scene(screenArea, SCREEN_WIDTH, SCREEN_HEIGHT, Color.TRANSPARENT);
 		scene.getStylesheets().add("/kotlx/ru/RuTWinFX/res/bgStyle.css");
 		return scene;
@@ -177,6 +181,10 @@ public class RuTWinFX {
 				} else if (event.getScreenY()<= STICK_WIDTH) {
 					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
 					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH - INDENT);
+					//***dbg
+//					System.out.println("Scene X = " + scene.getX() + "Scene Y = " + scene.getY() );
+//					System.out.println("backgroundPane.getLayoutY() = " + backgroundPane.getLayoutY());
+					//***
 				}
 			}
 			event.consume();
@@ -191,10 +199,12 @@ public class RuTWinFX {
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 				final double deltaY = event.getSceneY() - initY;
 				final double newHeight = windowHeight + deltaY;
-				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
+				// Если не меньше минимальной ширины по высоте и не боьлше нижнего края экрана с учетом панели задач ОС
+				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH - getTaskPaneHeight()))
 					backgroundPane.setPrefHeight(newHeight);
-				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
-					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH + INDENT);
+				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH - getTaskPaneHeight())
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() - getTaskPaneHeight() + BORDER_WIDTH - INDENT);
+
 			}
 			event.consume();
 		});
@@ -210,8 +220,13 @@ public class RuTWinFX {
 				final double newWidth = windowWidth + deltaX;
 				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
-				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
-					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH + INDENT);
+				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH) {
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH - INDENT);
+					//***dbg
+//					System.out.println("SCREEN_WIDTH = " + SCREEN_WIDTH);
+//					System.out.println("backgroundPane правый край = " + (backgroundPane.getWidth() + backgroundPane.getLayoutX()));
+					//***
+				}
 			}
 			event.consume();
 		});
@@ -233,12 +248,12 @@ public class RuTWinFX {
 				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
 				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
-					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH - INDENT);
 				// Низ
-				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
+				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH - getTaskPaneHeight()))
 					backgroundPane.setPrefHeight(newHeight);
-				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
-					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH + INDENT);
+				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH - getTaskPaneHeight())
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() - getTaskPaneHeight() + BORDER_WIDTH - INDENT);
 			}
 			event.consume();
 		});
@@ -266,10 +281,10 @@ public class RuTWinFX {
 					backgroundPane.setPrefWidth(windowWidth + BORDER_WIDTH - INDENT);
 				}
 				// Низ
-				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH))
+				if (( newHeight >= MIN_HEIGHT) & (event.getScreenY() < SCREEN_HEIGHT - STICK_WIDTH - getTaskPaneHeight()))
 					backgroundPane.setPrefHeight(newHeight);
-				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH)
-					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() + BORDER_WIDTH + INDENT);
+				else if (event.getScreenY() >= SCREEN_HEIGHT - STICK_WIDTH - getTaskPaneHeight())
+					backgroundPane.setPrefHeight(SCREEN_HEIGHT - backgroundPane.getLayoutY() - getTaskPaneHeight() + BORDER_WIDTH - INDENT);
 			}
 			event.consume();
 		});
@@ -297,7 +312,7 @@ public class RuTWinFX {
 					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
 					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH - INDENT);
 				}
-				// Лева
+				// Лево
 				if ((newWidth >= MIN_WIDTH) & (event.getScreenX() > STICK_WIDTH)) {
 					backgroundPane.setLayoutX(windowX + deltaX);
 					backgroundPane.setPrefWidth(newWidth);
@@ -335,7 +350,7 @@ public class RuTWinFX {
 				if ( (newWidth >= MIN_WIDTH) & (event.getScreenX() < SCREEN_WIDTH - STICK_WIDTH))
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
 				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH)
-					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH + INDENT);
+					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH - INDENT);
 			}
 			event.consume();
 		});
@@ -366,7 +381,7 @@ public class RuTWinFX {
 
 	public static <T extends Region> void setSlidePane(final SladePanePosition position, final T userContent) {
 		final SlidePane<T> slidePane = new SlidePane<>(position, userContent);
-		slidePane.setActivationWidth(10);
+		slidePane.setActivationWidth(18);
 		final Insets insets = new Insets(BORDER_WIDTH);
 		SlidePane.setAnchor(position, slidePane, insets);
 
@@ -404,4 +419,9 @@ public class RuTWinFX {
 	public static AnchorPane getFrame() {
 		return backgroundPane;
 	}
+
+	private static double getTaskPaneHeight() {
+		return Screen.getPrimary().getBounds().getHeight() - Screen.getPrimary().getVisualBounds().getHeight();
+	}
+
 }

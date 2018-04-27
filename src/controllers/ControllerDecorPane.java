@@ -34,30 +34,35 @@ public class ControllerDecorPane implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
-		//TODO Обработка нажатия maximizePane( развернуь окно в максимум)
 
 		// Перемещение окна если нажать на декорационной панели
 		decorationPane.addEventFilter(MouseEvent.ANY, event -> {
-
 			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
 				xOffset = frame.getLayoutX() - event.getScreenX();
 				yOffset = frame.getLayoutY() - event.getScreenY();
+//				//***dbg
+//				System.out.println("frame.getLayoutX() = " + frame.getLayoutX() + "  frame.getLayoutY() = " + frame.getLayoutY());
+//				System.out.println("xOffset = " + xOffset + "  yOffset = " + yOffset);
+//				//***
 			}
-
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
-				frame.setLayoutX(event.getSceneX() + xOffset);
-				frame.setLayoutY(event.getSceneY() + yOffset);
+				frame.setLayoutX(event.getScreenX() + xOffset);
+				frame.setLayoutY(event.getScreenY() + yOffset);
+//				//***dbg
+//				System.out.println("event.NewSceneX() = " + event.getSceneX() + "  event.NewSceneY() = " + event.getSceneY() );
+//				System.out.println("frame.NewLayoutX() = " + frame.getLayoutX() + "  frame.NewLayoutY() = " + frame.getLayoutY());
+//				System.out.println("event.getScreenX() = " + event.getScreenX() + "  event.getScreenY() = " + event.getScreenY() );
+//				//
 			}
 		});
 
-		// Инициализируем Scene и Stage для контроллера в слушателях соответсвующий property
-		// И регистрируем обработку событий использующих их(Scene, Stage и ихузлы).
+		// Инициализируем Scene и Stage для контроллера в слушателях соответсвующих property
+		// И регистрируем обработку событий использующих Scene, Stage и их узлы.
 		decorationPane.sceneProperty().addListener((observable, oldValue, newValue) -> {
-			Scene scene = newValue;
-
-			scene.windowProperty().addListener((observableVal, oldVal, newVal) -> {
-				Stage stage = (Stage) scene.getWindow();
-				SlidePane slidePane = (SlidePane) scene.lookup("SlidePane");
+			final Scene scene = newValue;
+			scene.windowProperty().addListener((observableVal, oldVal, window) -> {
+				final Stage stage = (Stage) window;
+				final SlidePane slidePane = (SlidePane) scene.lookup("SlidePane");
 
 				// Закрываем приложение
 				closeBtnPane.setOnMouseClicked(event -> {
@@ -80,6 +85,9 @@ public class ControllerDecorPane implements Initializable {
 						slidePane.setSlideOff();
 					}
 				});
+
+				//TODO Обработка нажатия maximizePane( развернуь окно в максимум)
+
 			});
 		});
 	}
