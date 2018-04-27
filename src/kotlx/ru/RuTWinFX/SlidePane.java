@@ -10,10 +10,8 @@ package kotlx.ru.RuTWinFX;
  */
 
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
-import javafx.stage.Stage;
 
 public class SlidePane<E extends Region> extends AnchorPane implements Runnable {
 

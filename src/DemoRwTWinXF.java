@@ -28,11 +28,6 @@ public class DemoRwTWinXF extends Application {
 		AnchorPane decor = FXMLLoader.load(getClass().getResource("/userDemoLayout/windowDecor.fxml"));
 		RuTWinFX.setSlidePane(SladePanePosition.TOP, decor);
 
-		//***dbg
-//		scene.setFill(new Color(0,0.9,0.9,0.3));
-//		scene.setOnMouseMoved(event -> System.out.println("Scene.MouseMoved:(x = " + event.getScreenX() + ", y = " + event.getScreenY() +")"));
-//		stage.addEventFilter(MouseEvent.MOUSE_MOVED, event -> System.out.println("Stage.MouseMoved:(x = " + event.getScreenX() + ", y = " + event.getScreenY() +")"));
-		//***
 		stage.setScene(scene);
 		stage.show();
 	}

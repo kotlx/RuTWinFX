@@ -40,19 +40,10 @@ public class ControllerDecorPane implements Initializable {
 			if (event.getEventType() == MouseEvent.MOUSE_PRESSED) {
 				xOffset = frame.getLayoutX() - event.getScreenX();
 				yOffset = frame.getLayoutY() - event.getScreenY();
-//				//***dbg
-//				System.out.println("frame.getLayoutX() = " + frame.getLayoutX() + "  frame.getLayoutY() = " + frame.getLayoutY());
-//				System.out.println("xOffset = " + xOffset + "  yOffset = " + yOffset);
-//				//***
 			}
 			if (event.getEventType() == MouseEvent.MOUSE_DRAGGED) {
 				frame.setLayoutX(event.getScreenX() + xOffset);
 				frame.setLayoutY(event.getScreenY() + yOffset);
-//				//***dbg
-//				System.out.println("event.NewSceneX() = " + event.getSceneX() + "  event.NewSceneY() = " + event.getSceneY() );
-//				System.out.println("frame.NewLayoutX() = " + frame.getLayoutX() + "  frame.NewLayoutY() = " + frame.getLayoutY());
-//				System.out.println("event.getScreenX() = " + event.getScreenX() + "  event.getScreenY() = " + event.getScreenY() );
-//				//
 			}
 		});
 
@@ -89,11 +80,7 @@ public class ControllerDecorPane implements Initializable {
 				// Развернуь / свернуть окно в максимум / к прежним размерам
 				maximizePane.setOnMouseClicked(event -> {
 					RuTWinFX.setFrameMaximized();
-					//***dbg
-					System.out.println("maximized");
-					//
 				});
-
 			});
 		});
 	}

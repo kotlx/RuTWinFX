@@ -185,10 +185,6 @@ public class RuTWinFX {
 				} else if (event.getScreenY()<= STICK_WIDTH) {
 					backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
 					backgroundPane.setPrefHeight(windowHeight + BORDER_WIDTH - INDENT);
-					//***dbg
-//					System.out.println("Scene X = " + scene.getX() + "Scene Y = " + scene.getY() );
-//					System.out.println("backgroundPane.getLayoutY() = " + backgroundPane.getLayoutY());
-					//***
 				}
 			}
 			event.consume();
@@ -226,10 +222,6 @@ public class RuTWinFX {
 					backgroundPane.setPrefWidth(windowWidth + deltaX);
 				else if (event.getScreenX() >= SCREEN_WIDTH - STICK_WIDTH) {
 					backgroundPane.setPrefWidth(SCREEN_WIDTH - backgroundPane.getLayoutX() + BORDER_WIDTH - INDENT);
-					//***dbg
-//					System.out.println("SCREEN_WIDTH = " + SCREEN_WIDTH);
-//					System.out.println("backgroundPane правый край = " + (backgroundPane.getWidth() + backgroundPane.getLayoutX()));
-					//***
 				}
 			}
 			event.consume();
