@@ -1,6 +1,7 @@
 package kotlx.ru.RuTWinFX;
 
 		import javafx.geometry.Insets;
+		import javafx.geometry.Rectangle2D;
 		import javafx.scene.Group;
 		import javafx.scene.Scene;
 		import javafx.scene.input.MouseEvent;
@@ -16,7 +17,7 @@ package kotlx.ru.RuTWinFX;
 
 public class RuTWinFX {
 	private static final RuTWinFX rutw = new RuTWinFX();
-	private static  Scene scene;
+	private static Scene scene;
 
 	private static final double SCREEN_WIDTH = Screen.getPrimary().getBounds().getWidth();
 	private static final double SCREEN_HEIGHT = Screen.getPrimary().getBounds().getHeight();
@@ -29,6 +30,9 @@ public class RuTWinFX {
 	private static final double BORDER_WIDTH = 8d;
 	private static final double ANGLE_WIDTH = 16d;
 	private static final double INDENT = 2;
+
+	private static boolean maximized = false;
+	private static Rectangle2D windowDimension;
 
 	private static double initX = 0;
 	private static double initY = 0;
@@ -424,4 +428,24 @@ public class RuTWinFX {
 		return Screen.getPrimary().getBounds().getHeight() - Screen.getPrimary().getVisualBounds().getHeight();
 	}
 
+	public static void setFrameMaximized() {
+		if (!maximized) {
+			windowDimension = new Rectangle2D(backgroundPane.getLayoutX(), backgroundPane.getLayoutY(), backgroundPane.getWidth(), backgroundPane.getHeight());
+
+			backgroundPane.setLayoutX(-BORDER_WIDTH + INDENT);
+			backgroundPane.setLayoutY(-BORDER_WIDTH + INDENT);
+			backgroundPane.setPrefWidth(SCREEN_WIDTH + 2 * BORDER_WIDTH - 2 * INDENT);
+			backgroundPane.setPrefHeight(SCREEN_HEIGHT - getTaskPaneHeight() + 2 * BORDER_WIDTH - 2 * INDENT);
+
+			maximized = true;
+		}
+		else {
+			backgroundPane.setLayoutX(windowDimension.getMinX());
+			backgroundPane.setLayoutY(windowDimension.getMinY());
+			backgroundPane.setPrefWidth(windowDimension.getWidth());
+			backgroundPane.setPrefHeight(windowDimension.getHeight());
+
+			maximized = false;
+		}
+	}
 }

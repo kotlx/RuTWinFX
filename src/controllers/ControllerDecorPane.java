@@ -86,7 +86,13 @@ public class ControllerDecorPane implements Initializable {
 					}
 				});
 
-				//TODO Обработка нажатия maximizePane( развернуь окно в максимум)
+				// Развернуь / свернуть окно в максимум / к прежним размерам
+				maximizePane.setOnMouseClicked(event -> {
+					RuTWinFX.setFrameMaximized();
+					//***dbg
+					System.out.println("maximized");
+					//
+				});
 
 			});
 		});
